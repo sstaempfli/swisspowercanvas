@@ -59,3 +59,5 @@ deploy_app:
     --set image.tag=latest
     --set build.job_id=${CI_JOB_ID}
     --set build.commit=${CI_COMMIT_SHA}
+  - >-
+    echo "webapp URL: http://$(echo ${CI_PROJECT_NAME} | tr _ -).course-fwe-2023.isginf.ch"
