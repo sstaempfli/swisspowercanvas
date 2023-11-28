@@ -3,23 +3,36 @@
 [[_TOC_]]
 
 ## Team Members
-1. Team member 1
-2. Team member 2
-3. Team member 3
-4. ...
-5. ...
+1. Shana Staempfli
+2. Liv Weiss
+3. Aurel Sostizzo
+4. Noah Fecker
 
 ## Project Description 
-Describe here your project in detail and define your goals.
+Our project aims to create an interactive visualization of power plants in Switzerland using TypeScript and D3.js. 
+The visualization will provide insights into the amount of power produced in different cantons and municipalities. 
+Users will have the option to filter the data based on energy sources such as solar, bio, or nuclear energy. 
+Additionally, users can choose to display the information either per municipality or per canton.
+
 
 ### Project goals
-Describe here what are the goals of the project.
+1. Develop an interactive and visually appealing map of the distribution of power plants across cantons and municipalities.
+2. Enable users to explore aggregated power production data based on cantons or municipalities, without displaying individual power plants.
+3. Implement filtering options for the different energy sources. 
+
+
 
 ### Data Sources
 Add here all used datasources and their origin.
 
+https://opendata.swiss/de/dataset/elektrizitatsproduktionsanlagen
+
 ### Tasks
 Define all the tasks you want your app to solve.
+
+The user should be able to see how much energy is produced in a specific canton or municipality.
+The user should be able to see how the energy is produced.
+The user should be able to see in which canton or municipality a certain energy source is used most often.
 
 
 ## Requirements
@@ -70,9 +83,11 @@ docker run -it --rm -p 5173:5173 my-webapp bash
 
 ## Milestones
 Document here the major milestones of your code and future planned steps.\
-- [ ] Milestone 1
-  - [ ] Completed Sub-task: ...
-  - [ ] Completed Sub-task: ...
+- [ ] Display a map of Switzerland showcasing the data on the amount of power produced in each canton.
+  - [ ] Implement the display of the Swiss map on the frontend.
+  - [ ] Create the backend to calculate the values of produced energy for each canton.
+  - [ ] Establish a connection between the frontend and backend.
+  - [ ] Present the data nicely in the map
 
 - [ ] Milestone 2
   - [ ] Sub-task: ...
