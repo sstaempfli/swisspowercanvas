@@ -30,9 +30,10 @@ https://opendata.swiss/de/dataset/elektrizitatsproduktionsanlagen
 ### Tasks
 Define all the tasks you want your app to solve.
 
-The user should be able to see how much energy is produced in a specific canton or municipality.
-The user should be able to see how the energy is produced.
-The user should be able to see in which canton or municipality a certain energy source is used most often.
+- The user should be able to see how much energy is produced in a specific canton or municipality.
+- The user should be able to see how the energy is produced.
+- The user should be able to see in which canton or municipality a certain energy source is used most often.
+
 
 
 ## Requirements
