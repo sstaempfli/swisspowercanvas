@@ -86,7 +86,7 @@ docker run -it --rm -p 5173:5173 my-webapp bash
 Document here the major milestones of your code and future planned steps.\
 - [ ] Display a map of Switzerland showcasing the data on the amount of power produced in each canton.
   - [ ] Implement the display of the Swiss map on the frontend.
-  - [ ] [Create the backend to calculate the values of produced energy for each canton.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tree/2-create-the-backend-to-calculate-the-values-of-produced-energy-for-each-canton?ref_type=heads)
+  - [X] [Create the backend to calculate the values of produced energy for each canton.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/1)
   - [ ] Establish a connection between the frontend and backend.
   - [ ] Present the data nicely in the map
 
