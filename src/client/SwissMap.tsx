@@ -3,13 +3,13 @@ import { useMemo } from 'react';
 import { ChartProps, defaultChartProps } from './types/chart';
 
 interface SwissMapProps extends Partial<ChartProps> {
-  features: GeoJSON.FeatureCollection;
+  state: GeoJSON.FeatureCollection;
   cantons: GeoJSON.MultiLineString;
   municipalities: GeoJSON.MultiLineString;
 }
 
 const SwissMap: React.FC<SwissMapProps> = ({
-  features,
+  state,
   cantons,
   municipalities,
   width = defaultChartProps.width, 
@@ -17,19 +17,19 @@ const SwissMap: React.FC<SwissMapProps> = ({
 }) => {
 
   const projection = d3.geoMercator()
-    .fitSize([width, height], features);
+    .fitSize([width, height], state);
 
 
   const path = d3.geoPath().projection(projection);
 
-  const featurePath = useMemo(() => features && path(features), [features, path]);
+  const statePath = useMemo(() => state && path(state), [state, path]);
   const cantonPath = useMemo(() => cantons && path(cantons), [cantons, path]);
   const municipalityPath = useMemo(() => municipalities && path(municipalities), [municipalities, path]);
 
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
       <g>
-        {featurePath && <path d={featurePath} fill="#ccc" stroke="none" />}
+        {statePath && <path d={statePath} fill="#ccc" stroke="none" />}
         {municipalityPath && <path d={municipalityPath} fill="none" stroke="#999" strokeWidth="1"/>}
         {cantonPath && <path d={cantonPath} fill="none" stroke="black" strokeWidth="1.5"/>}
       </g>

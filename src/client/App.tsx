@@ -20,10 +20,12 @@ const requestData = async () => {
 };
 
 function App() {
-  const { features, cantonBorders, municipalityBorders } = useSwissAtlas();
+  const { stateBorders, cantonBorders, municipalityBorders } = useSwissAtlas();
+  console.log(stateBorders.features[0]?.properties);
+  console.log(JSON.stringify(stateBorders.features[0]?.properties));
   return (
     <Layout>
-      <SwissMap features= {features} cantons={ cantonBorders} municipalities= {municipalityBorders}  />
+      <SwissMap state= {stateBorders} cantons= {cantonBorders} municipalities= {municipalityBorders}  />
       <button onClick={requestData}>Very good on press button event</button>
     </Layout>
   );

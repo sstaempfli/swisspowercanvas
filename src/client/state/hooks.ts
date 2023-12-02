@@ -4,13 +4,13 @@ import usGeo from "../data/swiss-maps.json";
 
 
 export function useSwissAtlas() {
-  const features = useMemo(() => {
-    const processedFeatures = feature(
+  const stateBorders = useMemo(() => {
+    const processedStateBorders = feature(
       usGeo as any,
       usGeo.objects.country as TopoJSON.GeometryCollection,
     );
     //console.log("Processed Features:", processedFeatures);
-    return processedFeatures;
+    return processedStateBorders;
   }, []);
 
  const cantonBorders = useMemo(() => {
@@ -33,5 +33,5 @@ export function useSwissAtlas() {
     return processedMunicipalityBorders;
   }, []);
 
-  return { features, cantonBorders, municipalityBorders };
+  return { stateBorders, cantonBorders, municipalityBorders };
 }
