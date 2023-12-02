@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { feature, mesh } from "topojson";
-import usGeo from "../../data/swiss-maps.json";
+import usGeo from "../data/swiss-maps.json";
 
 
 export function useSwissAtlas() {
@@ -9,7 +9,7 @@ export function useSwissAtlas() {
       usGeo as any,
       usGeo.objects.country as TopoJSON.GeometryCollection,
     );
-    console.log("Processed Features:", processedFeatures);
+    //console.log("Processed Features:", processedFeatures);
     return processedFeatures;
   }, []);
 
@@ -19,7 +19,7 @@ export function useSwissAtlas() {
       usGeo.objects.cantons as TopoJSON.GeometryCollection,
       (a, b) => a !== b,
     );
-    console.log("Processed Canton Borders:", processedCantonBorders);
+    //console.log("Processed Canton Borders:", processedCantonBorders);
     return processedCantonBorders;
   }, []);
 
@@ -29,7 +29,7 @@ export function useSwissAtlas() {
       usGeo.objects.municipalities as TopoJSON.GeometryCollection,
       (a, b) => a !== b,
     );
-    console.log("Processed Municipality Borders:", processedMunicipalityBorders);
+    //console.log("Processed Municipality Borders:", processedMunicipalityBorders);
     return processedMunicipalityBorders;
   }, []);
 
