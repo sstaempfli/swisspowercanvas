@@ -7,7 +7,7 @@ const Layout = (props: { children: React.ReactNode }) => {
       <nav className="container-fluid">
         <ul>
           <li>
-            <h1>Open data explorer</h1>
+            <h1>Swiss power production</h1>
           </li>
         </ul>
       </nav>
