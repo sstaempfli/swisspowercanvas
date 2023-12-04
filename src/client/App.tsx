@@ -16,10 +16,17 @@ type cantonPropertiesType = {
   stroke: string
 }
 
+type municipalitiesPropertiesTypeInitial = {
+  id: number
+  name: string
+  ktnr: number
+}
+
 type municipalitiesPropertiesType = {
   id: number
   name: string
   ktnr: number
+  fill: string
 }
 
 const requestData = async () => {
@@ -39,6 +46,7 @@ const requestData = async () => {
 function App() {
   const { state, cantons, municipalities } = useSwissAtlas();
   //cantons.features.forEach((f)=> (console.log(((f.properties) as cantonPropertiesType).name)))
+  municipalities.features.forEach((f) => (((f.properties) as municipalitiesPropertiesType).fill = "#0000FF"));
   (cantons.features[0]?.properties as cantonPropertiesType).fill = "#FF0000"
   return (
     <Layout>

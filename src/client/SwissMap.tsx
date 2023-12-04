@@ -14,6 +14,13 @@ type cantonPropertiesType = {
   stroke: string
 }
 
+type municipalitiesPropertiesType = {
+  id: number
+  name: string
+  ktnr: number
+  fill: string
+}
+
 const SwissMap: React.FC<SwissMapProps> = ({
   state,
   cantons,
@@ -57,7 +64,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
     .enter()
     .append("path")
     .attr("d", path)
-    .attr("fill", "#00FF00")
+    .attr("fill", function(c) {return (c.properties as municipalitiesPropertiesType).fill;});
 
   return (
     <svg id="SwissMap" width={width} height={height}>
