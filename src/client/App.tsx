@@ -1,13 +1,8 @@
-import { useMemo } from "react";
 import "./App.css";
 import Layout from "./Layout";
 import SwissMap from "./SwissMap";
 import { useSwissAtlas } from "./state/hooks";
 
-type statePropertiresType = {
-  id: string
-  name: string
-}
 
 type cantonPropertiesType = {
   id: number
@@ -16,11 +11,6 @@ type cantonPropertiesType = {
   stroke: string
 }
 
-type municipalitiesPropertiesTypeInitial = {
-  id: number
-  name: string
-  ktnr: number
-}
 
 type municipalitiesPropertiesType = {
   id: number
@@ -45,16 +35,18 @@ const requestData = async () => {
 
 function App() {
   const { state, cantons, municipalities } = useSwissAtlas();
-  //cantons.features.forEach((f)=> (console.log(((f.properties) as cantonPropertiesType).name)))
+  cantons.features.forEach((f)=> (console.log(((f.properties) as cantonPropertiesType).name)))
   municipalities.features.forEach((f) => (((f.properties) as municipalitiesPropertiesType).fill = "#0000FF"));
   (cantons.features[0]?.properties as cantonPropertiesType).fill = "#FF0000"
+
   return (
     <Layout>
-      {useMemo(() => <SwissMap state= {state} cantons= {cantons} municipalities= {municipalities}/>, [state, cantons, municipalities])}
+      <SwissMap state= {state} cantons= {cantons} municipalities= {municipalities}/>
       <button onClick={requestData}>Very good on press button event</button>
     </Layout>
   );
 }
+
 
 export default App;
 
