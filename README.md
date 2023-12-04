@@ -88,7 +88,7 @@ Document here the major milestones of your code and future planned steps.\
   - [X] [Implement the display of the Swiss map on the frontend.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/2)
   - [X] [Create the backend to calculate the values of produced energy for each canton.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/1)
   - [X] [Establish a connection between the frontend and backend.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/3)
-  - [ ] Present the data nicely in the map
+  - [X] [Present the data nicely in the map](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tree/4-present-the-data-nicely-in-the-map?ref_type=heads)
 
 - [ ] Milestone 2
   - [ ] Sub-task: ...
