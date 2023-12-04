@@ -1,37 +1,28 @@
-import { useMemo } from "react";
-import { feature, mesh } from "topojson";
-import usGeo from "../../data/swiss-maps.json";
+import { feature } from "topojson";
+import usGeo from "../data/swiss-maps.json";
 
 
 export function useSwissAtlas() {
-  const features = useMemo(() => {
-    const processedFeatures = feature(
+  const state = feature(
       usGeo as any,
       usGeo.objects.country as TopoJSON.GeometryCollection,
     );
-    console.log("Processed Features:", processedFeatures);
-    return processedFeatures;
-  }, []);
+    //console.log("Processed Features:", processedFeatures);
 
- const cantonBorders = useMemo(() => {
-    const processedCantonBorders = mesh(
+
+ const cantons = feature(
       usGeo as any,
       usGeo.objects.cantons as TopoJSON.GeometryCollection,
-      (a, b) => a !== b,
     );
-    console.log("Processed Canton Borders:", processedCantonBorders);
-    return processedCantonBorders;
-  }, []);
+    //console.log("Processed Canton Borders:", processedCantonBorders);
 
-  const municipalityBorders = useMemo(() => {
-    const processedMunicipalityBorders = mesh(
+
+  const municipalities = feature(
       usGeo as any,
       usGeo.objects.municipalities as TopoJSON.GeometryCollection,
-      (a, b) => a !== b,
     );
-    console.log("Processed Municipality Borders:", processedMunicipalityBorders);
-    return processedMunicipalityBorders;
-  }, []);
+    //console.log("Processed Municipality Borders:", processedMunicipalityBorders);
 
-  return { features, cantonBorders, municipalityBorders };
+
+  return { state, cantons, municipalities }
 }
