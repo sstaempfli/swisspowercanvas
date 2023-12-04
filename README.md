@@ -85,9 +85,9 @@ docker run -it --rm -p 5173:5173 my-webapp bash
 ## Milestones
 Document here the major milestones of your code and future planned steps.\
 - [ ] Display a map of Switzerland showcasing the data on the amount of power produced in each canton.
-  - [ ] Implement the display of the Swiss map on the frontend.
+  - [X] [Implement the display of the Swiss map on the frontend.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/2)
   - [X] [Create the backend to calculate the values of produced energy for each canton.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/1)
-  - [ ] Establish a connection between the frontend and backend.
+  - [X] [Establish a connection between the frontend and backend.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/3)
   - [ ] Present the data nicely in the map
 
 - [ ] Milestone 2
@@ -105,6 +105,9 @@ This will help you have a clearer overview of what you are currently doing, trac
 ## Weekly Summary 
 Write here a short summary with weekly progress, including challanges and open questions.\
 We will use this to understand what your struggles and where did the weekly effort go to.
+
+In Week 1, our primary challenge revolved around showcasing the Swiss map on the website. The most significant hurdle we encountered was the process of coloring the map. Parsing the file in the backend proved to be a straightforward task and transmitting the data from the backend to the frontend also did not present too many troubles.
+
 
 ## Versioning
 Create stable versions of your code each week by using gitlab tags.\
