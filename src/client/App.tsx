@@ -3,7 +3,23 @@ import Layout from "./Layout";
 import SwissMap from "./SwissMap";
 import { useSwissAtlas } from "./state/hooks";
 
+type statePropertiresType = {
+  id: string
+  name: string
+}
 
+type cantonPropertiesType = {
+  id: number
+  name : string
+  fill : string
+  stroke: string
+}
+
+type municipalitiesPropertiesType = {
+  id: number
+  name: string
+  ktnr: number
+}
 
 const requestData = async () => {
   // Use fetch to send the request to the server
@@ -20,12 +36,12 @@ const requestData = async () => {
 };
 
 function App() {
-  const { stateBorders, cantonBorders, municipalityBorders } = useSwissAtlas();
-  console.log(stateBorders.features[0]?.properties);
-  console.log(JSON.stringify(stateBorders.features[0]?.properties));
+  const { state, cantons, municipalities } = useSwissAtlas();
+  //cantons.features.forEach((f)=> (console.log(((f.properties) as cantonPropertiesType).name)))
+  (cantons.features[0]?.properties as cantonPropertiesType).fill = "#FF0000"
   return (
     <Layout>
-      <SwissMap state= {stateBorders} cantons= {cantonBorders} municipalities= {municipalityBorders}  />
+      <SwissMap state= {state} cantons= {cantons} municipalities= {municipalities}/>
       <button onClick={requestData}>Very good on press button event</button>
     </Layout>
   );
