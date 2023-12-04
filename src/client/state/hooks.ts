@@ -1,5 +1,4 @@
-import { useMemo } from "react";
-import { feature, mesh } from "topojson";
+import { feature } from "topojson";
 import usGeo from "../data/swiss-maps.json";
 
 

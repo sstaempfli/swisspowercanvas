@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import "./App.css";
 import Layout from "./Layout";
 import SwissMap from "./SwissMap";
@@ -41,7 +42,7 @@ function App() {
   (cantons.features[0]?.properties as cantonPropertiesType).fill = "#FF0000"
   return (
     <Layout>
-      <SwissMap state= {state} cantons= {cantons} municipalities= {municipalities}/>
+      {useMemo(() => <SwissMap state= {state} cantons= {cantons} municipalities= {municipalities}/>, [state, cantons, municipalities])}
       <button onClick={requestData}>Very good on press button event</button>
     </Layout>
   );
