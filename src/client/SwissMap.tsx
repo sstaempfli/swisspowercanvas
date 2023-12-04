@@ -15,6 +15,7 @@ type cantonPropertiesType = {
   stroke: string
 }
 
+// @ts-ignore
 type municipalitiesPropertiesType = {
   id: number
   name: string
@@ -31,38 +32,43 @@ const SwissMap: React.FC<SwissMapProps> = ({
                                            }) => {
   const svgRef = useRef(null);
 
-  useEffect(() => {
-    if (!svgRef.current) return;
+    useEffect(() => {
+        if (!svgRef.current) return;
 
-    const svg = d3.select(svgRef.current);
-    const projection = d3.geoMercator().fitSize([width, height], cantons);
-    const path = d3.geoPath().projection(projection);
+        const svg = d3.select(svgRef.current);
+        const projection = d3.geoMercator().fitSize([width, height], cantons);
+        const path = d3.geoPath().projection(projection);
 
-    svg.select("#state")
-        .selectAll("path")
-        .data(state.features)
-        .enter()
-        .append('path')
-        .attr('class', 'state')
-        .attr('d', path)
-        .style("fill", "##808080");
+        svg.select("#state")
+            .selectAll("path")
+            .data(state.features)
+            .enter()
+            .append('path')
+            .attr('class', 'state')
+            .attr('d', path)
+            .style("fill", "##808080");
 
-    svg.select("#cantons")
-        .selectAll("path")
-        .data(cantons.features)
-        .enter()
-        .append("path")
-        .attr("d", path)
-        .attr("fill", function(c) {return (c.properties as cantonPropertiesType).fill;});
+        // Clear existing canton paths
+        svg.select("#cantons").selectAll("path").remove();
 
-    svg.select("#municipalities")
-        .selectAll("path")
-        .data(municipalities.features)
-        .enter()
-        .append("path")
-        .attr("d", path)
-        .attr("fill", function(c) {return (c.properties as municipalitiesPropertiesType).fill;});
-  }, [state, cantons, municipalities]);
+        svg.select("#cantons")
+            .selectAll("path")
+            .data(cantons.features)
+            .enter()
+            .append("path")
+            .attr("d", path)
+            .attr("fill", function(c) {return (c.properties as cantonPropertiesType).fill;});
+
+        /*svg.select("#municipalities")
+            .selectAll("path")
+            .data(municipalities.features)
+            .enter()
+            .append("path")
+            .attr("d", path)
+            .attr("fill", function(c) {return (c.properties as municipalitiesPropertiesType).fill;});
+
+         */
+    }, [state, cantons, municipalities]);
 
   return (
       <svg ref={svgRef} id="SwissMap" width={width} height={height}>
