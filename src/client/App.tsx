@@ -7,7 +7,18 @@ import { scaleLinear } from 'd3-scale';
 import { scaleLog } from 'd3-scale';
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
-
+const energySources = [
+  'Hydroelectric power',
+  'Photovoltaic',
+  'Wind energy',
+  'Biomass',
+  'Geothermal energy',
+  'Nuclear energy',
+  'Crude oil',
+  'Natural gas',
+  'Coal',
+  'Waste'
+];
 type cantonPropertiesType = {
   id: number;
   name: string;
@@ -25,6 +36,8 @@ type DataType = {
   ID: string;
   Canton?: string;
   Municipality?: string;
+  MainCategory: string;
+  SubCategory: string;
   TotalPower: string;
 };
 
@@ -32,6 +45,8 @@ function App() {
   const { state, cantons, municipalities } = useSwissAtlas();
   const [data, setData] = useState<DataType[] | null>(null);
   const [currentView, setCurrentView] = useState<"canton" | "municipality">("canton");
+  const [selectedEnergySource, setSelectedEnergySource] = useState('All');
+
 
   const handleViewChange = (view: "canton" | "municipality") => {
     setCurrentView(view);
@@ -55,19 +70,21 @@ function App() {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
-      const powerValues = data.map(d => parseFloat(d.TotalPower));
+      const filteredData = selectedEnergySource === 'All' 
+        ? data 
+        : data.filter(d => d.SubCategory === selectedEnergySource);
+
+      const powerValues = filteredData.map(d => parseFloat(d.TotalPower));
 
       if (currentView === "canton") {
         // Update cantons
         const minPower = Math.min(...powerValues);
         const maxPower = Math.max(...powerValues);
         const powerScale = scaleLinear().domain([minPower, maxPower]).range([0, 1]);
-        data.forEach(d => {
-          const cantonID = parseInt(d.ID) - 1;
-          const power = parseFloat(d.TotalPower);
+        cantons.features.forEach(canton => {
+          const cantonData = filteredData.find(d => d.ID === canton.properties.id.toString());
+          const power = cantonData ? parseFloat(cantonData.TotalPower) : 0;
           const scaledPower = powerScale(power);
-          const canton = cantons.features[cantonID];
           const properties = canton?.properties as cantonPropertiesType;
           
           if (properties) {
@@ -80,7 +97,7 @@ function App() {
         // Use a logarithmic scale for better differentiation of small values
          const powerScale = scaleLog().domain([minPower, maxPower]).range([0, 1]);
          
-        const municipalityMap = new Map<number, any>(municipalities.features.map(feature => [feature.properties.id, feature]));
+        //const municipalityMap = new Map<number, any>(municipalities.features.map(feature => [feature.properties.id, feature]));
         //const powerValuesNumbers = data.map(d => parseFloat(d.TotalPower)).filter((v): v is number => !isNaN(v));
     
         // Use a quantile scale for the color mapping
@@ -104,46 +121,45 @@ function App() {
               "#2171b5", "#08519c", "#08306b"
             ]);*/
 
-        data.forEach(d => {
-          const municipalityID = parseInt(d.ID);
-          const municipality = municipalityMap.get(municipalityID);
-          const power = parseFloat(d.TotalPower);
-          const scaledPower = powerScale(power);
-        
-          if (!municipality) {
-            console.error(`No municipality found for ID: ${d.ID}`);
-            return;
-          }
-      
-          const properties: municipalityPropertiesType = municipality.properties 
-          properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)}, 1)`;
-            /*if (!isNaN(power)) {
+            municipalities.features.forEach(municipality => {
+              const municipalityData = filteredData.find(d => d.ID === municipality.properties.id.toString());
+              const power = municipalityData ? parseFloat(municipalityData.TotalPower) : 0;
+              const scaledPower = powerScale(power);
+              console.log(scaledPower);
+          
+              const properties = municipality.properties as municipalityPropertiesType;
+              properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)}, 1)`;
+              municipality.properties = properties;
+              /*if (!isNaN(power)) {
               properties.fill = colorScale(power) as string;
             } else {
               console.error(`Invalid power value for ID: ${d.ID} with power: ${d.TotalPower}`);
             }*/
-      
-          // Assign the modified properties back to the municipality
-          municipality.properties = properties;
-        });
+            });
       }
     }
   }, [data, currentView]); // Add currentView as a dependency
 
   return (
     <Layout>
-      <div>
-        <button onClick={() => handleViewChange("canton")}>Cantons</button>
-        <button onClick={() => handleViewChange("municipality")}>Municipalities</button>
-      </div>
-      <SwissMap
-        state={state}
-        cantons={cantons}
-        municipalities={municipalities}
-        currentView={currentView} // Pass the current view as a prop
-      />
-    </Layout>
-  );
+    <div>
+      <button onClick={() => handleViewChange("canton")}>Cantons</button>
+      <button onClick={() => handleViewChange("municipality")}>Municipalities</button>
+      <select onChange={(e) => setSelectedEnergySource(e.target.value)}>
+        <option value="All">All Energy Sources</option>
+        {energySources.map(source => (
+          <option key={source} value={source}>{source}</option>
+        ))}
+      </select>
+    </div>
+    <SwissMap
+      state={state}
+      cantons={cantons}
+      municipalities={municipalities}
+      currentView={currentView}
+    />
+  </Layout>
+);
 }
 
 export default App;

@@ -1,27 +1,129 @@
-ID,Canton,TotalPower
-13,BL,275817.36
-19,AG,3112953.48
-2,BE,2482849.66
-1,ZH,663686.80
-17,SG,913750.32
-21,TI,1777373.37
-10,FR,521920.31
-11,SO,1330425.52
-7,NW,57287.47
-3,LU,400924.90
-20,TG,310455.07
-23,VS,5122882.45
-22,VD,925679.73
-14,SH,79846.65
-26,JU,102547.63
-15,AR,42317.25
-16,AI,21308.98
-25,GE,286761.77
-18,GR,2991269.43
-4,UR,500098.62
-9,ZG,71173.46
-6,OW,153620.71
-5,SZ,410605.31
-8,GL,1730346.58
-24,NE,213857.95
-12,BS,96433.14
+ID,Canton,MainCategory,SubCategory,TotalPower
+13,BL,Other renewable energies,Photovoltaic,130603.36
+13,BL,Other renewable energies,Biomass,1619.00
+13,BL,Hydroelectric power,Hydroelectric power,131055.00
+13,BL,Fossil fuel,Natural gas,12540.00
+19,AG,Other renewable energies,Photovoltaic,368667.18
+19,AG,Other renewable energies,Biomass,18146.60
+19,AG,Other renewable energies,Wind energy,10.00
+19,AG,Other renewable energies,Waste,32510.00
+19,AG,Hydroelectric power,Hydroelectric power,713133.70
+19,AG,Nuclear energy,Nuclear energy,1979600.00
+19,AG,Fossil fuel,Natural gas,886.00
+2,BE,Other renewable energies,Photovoltaic,559153.26
+2,BE,Other renewable energies,Biomass,55619.60
+2,BE,Other renewable energies,Wind energy,37250.00
+2,BE,Other renewable energies,Waste,36120.00
+2,BE,Hydroelectric power,Hydroelectric power,1697711.00
+2,BE,Fossil fuel,Natural gas,96990.50
+2,BE,Fossil fuel,Crude oil,5.30
+1,ZH,Other renewable energies,Photovoltaic,440610.60
+1,ZH,Other renewable energies,Biomass,26802.50
+1,ZH,Other renewable energies,Waste,75400.00
+1,ZH,Other renewable energies,Wind energy,62.80
+1,ZH,Hydroelectric power,Hydroelectric power,106396.90
+1,ZH,Fossil fuel,Natural gas,14414.00
+17,SG,Other renewable energies,Photovoltaic,382849.22
+17,SG,Other renewable energies,Wind energy,210.00
+17,SG,Other renewable energies,Biomass,12735.00
+17,SG,Other renewable energies,Waste,42850.00
+17,SG,Hydroelectric power,Hydroelectric power,467971.10
+17,SG,Fossil fuel,Natural gas,7135.00
+21,TI,Other renewable energies,Wind energy,12750.00
+21,TI,Other renewable energies,Photovoltaic,189272.27
+21,TI,Other renewable energies,Biomass,1954.00
+21,TI,Other renewable energies,Waste,18600.00
+21,TI,Hydroelectric power,Hydroelectric power,1553891.80
+21,TI,Fossil fuel,Natural gas,905.30
+10,FR,Other renewable energies,Photovoltaic,252164.90
+10,FR,Other renewable energies,Biomass,7351.50
+10,FR,Other renewable energies,Waste,10000.00
+10,FR,Hydroelectric power,Hydroelectric power,250655.91
+10,FR,Fossil fuel,Natural gas,1748.00
+11,SO,Other renewable energies,Photovoltaic,168573.82
+11,SO,Other renewable energies,Biomass,2211.00
+11,SO,Other renewable energies,Waste,21600.00
+11,SO,Other renewable energies,Wind energy,12.80
+11,SO,Hydroelectric power,Hydroelectric power,101065.50
+11,SO,Fossil fuel,Natural gas,1962.40
+11,SO,Nuclear energy,Nuclear energy,1035000.00
+7,NW,Other renewable energies,Photovoltaic,18480.37
+7,NW,Other renewable energies,Biomass,154.00
+7,NW,Hydroelectric power,Hydroelectric power,38653.10
+3,LU,Other renewable energies,Photovoltaic,340250.60
+3,LU,Other renewable energies,Biomass,14232.10
+3,LU,Other renewable energies,Wind energy,4242.00
+3,LU,Other renewable energies,Waste,27200.00
+3,LU,Hydroelectric power,Hydroelectric power,11449.20
+3,LU,Fossil fuel,Natural gas,3551.00
+20,TG,Other renewable energies,Photovoltaic,264759.97
+20,TG,Other renewable energies,Biomass,19689.90
+20,TG,Other renewable energies,Wind energy,6.40
+20,TG,Other renewable energies,Waste,15640.00
+20,TG,Hydroelectric power,Hydroelectric power,10278.80
+20,TG,Fossil fuel,Natural gas,80.00
+23,VS,Other renewable energies,Photovoltaic,198740.15
+23,VS,Other renewable energies,Wind energy,16350.00
+23,VS,Other renewable energies,Biomass,8605.80
+23,VS,Other renewable energies,Waste,4520.00
+23,VS,Hydroelectric power,Hydroelectric power,4834340.50
+23,VS,Fossil fuel,Natural gas,60326.00
+22,VD,Other renewable energies,Photovoltaic,400032.13
+22,VD,Other renewable energies,Biomass,14724.90
+22,VD,Other renewable energies,Waste,21240.00
+22,VD,Hydroelectric power,Hydroelectric power,489175.70
+22,VD,Fossil fuel,Natural gas,507.00
+14,SH,Other renewable energies,Photovoltaic,41994.10
+14,SH,Other renewable energies,Biomass,2073.80
+14,SH,Hydroelectric power,Hydroelectric power,35778.75
+26,JU,Other renewable energies,Photovoltaic,76097.13
+26,JU,Other renewable energies,Wind energy,10913.50
+26,JU,Other renewable energies,Biomass,4756.00
+26,JU,Hydroelectric power,Hydroelectric power,10781.00
+15,AR,Other renewable energies,Photovoltaic,38089.25
+15,AR,Other renewable energies,Biomass,1837.00
+15,AR,Hydroelectric power,Hydroelectric power,2391.00
+16,AI,Other renewable energies,Photovoltaic,17886.98
+16,AI,Other renewable energies,Biomass,110.00
+16,AI,Hydroelectric power,Hydroelectric power,2532.00
+16,AI,Fossil fuel,Natural gas,780.00
+25,GE,Other renewable energies,Photovoltaic,103341.77
+25,GE,Other renewable energies,Biomass,642.00
+25,GE,Other renewable energies,Waste,18400.00
+25,GE,Hydroelectric power,Hydroelectric power,163310.00
+25,GE,Fossil fuel,Natural gas,1068.00
+18,GR,Other renewable energies,Wind energy,3010.00
+18,GR,Other renewable energies,Photovoltaic,121792.18
+18,GR,Other renewable energies,Biomass,23697.00
+18,GR,Other renewable energies,Waste,13000.00
+18,GR,Hydroelectric power,Hydroelectric power,2828365.25
+18,GR,Fossil fuel,Natural gas,1405.00
+4,UR,Other renewable energies,Photovoltaic,14623.12
+4,UR,Other renewable energies,Wind energy,3300.00
+4,UR,Other renewable energies,Biomass,240.00
+4,UR,Hydroelectric power,Hydroelectric power,481935.50
+9,ZG,Other renewable energies,Photovoltaic,63171.94
+9,ZG,Other renewable energies,Biomass,1596.00
+9,ZG,Hydroelectric power,Hydroelectric power,6145.52
+9,ZG,Fossil fuel,Natural gas,260.00
+6,OW,Other renewable energies,Photovoltaic,25605.71
+6,OW,Other renewable energies,Biomass,800.00
+6,OW,Hydroelectric power,Hydroelectric power,127215.00
+5,SZ,Other renewable energies,Photovoltaic,76832.72
+5,SZ,Other renewable energies,Biomass,17635.00
+5,SZ,Hydroelectric power,Hydroelectric power,316137.59
+8,GL,Hydroelectric power,Hydroelectric power,1697257.50
+8,GL,Other renewable energies,Photovoltaic,19974.08
+8,GL,Other renewable energies,Waste,12500.00
+8,GL,Other renewable energies,Biomass,615.00
+24,NE,Other renewable energies,Photovoltaic,91374.45
+24,NE,Other renewable energies,Biomass,2130.10
+24,NE,Other renewable energies,Wind energy,3.40
+24,NE,Other renewable energies,Waste,14145.00
+24,NE,Hydroelectric power,Hydroelectric power,58329.00
+24,NE,Fossil fuel,Natural gas,47876.00
+12,BS,Other renewable energies,Photovoltaic,39084.64
+12,BS,Other renewable energies,Waste,16214.60
+12,BS,Other renewable energies,Biomass,13215.40
+12,BS,Hydroelectric power,Hydroelectric power,238.50
+12,BS,Fossil fuel,Natural gas,27680.00
