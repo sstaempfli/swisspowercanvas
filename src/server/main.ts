@@ -16,6 +16,12 @@ app.get("/hello", async function (_req, res) {
   res.status(200).json({ message: json });
 });
 
+app.get("/municipalities", async function (_req, res) {
+  let file = fs.readFileSync("src/server/data/municipalitiesTotalPower.csv").toString();
+  let json = papa.parse(file, { header: true, skipEmptyLines: true });
+  res.status(200).json({ message: json });
+});
+
 // Do not change below this line
 ViteExpress.listen(app, 5173, () =>
     console.log("Server is listening on http://localhost:5173"),

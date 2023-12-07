@@ -14,6 +14,7 @@ interface CantonID {
 let cantonPower: { [key: string]: number } = {};
 let cantonIDMap: { [key: string]: string } = {};
 
+
 // Read the canton ID mapping
 fs.createReadStream('src/server/data/cantonIDMapping.csv')
     .pipe(csv())
