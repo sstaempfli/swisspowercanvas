@@ -154,6 +154,7 @@ Unterengstringen,249
 Urdorf,250
 Weiningen (ZH),251
 Zürich,261
+Zrich,261
 Stammheim,292
 Wädenswil,293
 Elgg,294
@@ -201,6 +202,7 @@ Muri bei Bern,356
 Oberbalm,357
 Stettlen,358
 Vechigen,359
+Utzigen,359
 Wohlen bei Bern,360
 Zollikofen,361
 Ittigen,362
@@ -301,6 +303,7 @@ Gsteigwiler,577
 Gündlischwand,578
 Habkern,579
 Hofstetten bei Brienz,580
+Hofstetten b. Brienz,580
 Interlaken,581
 Iseltwald,582
 Lauterbrunnen,584
@@ -899,6 +902,7 @@ Basel,2701
 Bettingen,2702
 Riehen,2703
 Aesch (BL),2761
+Aesch BL,2761
 Allschwil,2762
 Arlesheim,2763
 Biel-Benken,2764
@@ -1071,6 +1075,7 @@ Sevelen,3275
 Wartau,3276
 Bad Ragaz,3291
 Flums,3292
+Mutten,3292
 Mels,3293
 Pfäfers,3294
 Quarten,3295
@@ -1129,6 +1134,7 @@ Vals,3603
 Lumnezia,3618
 Ilanz/Glion,3619
 Fürstenau,3633
+Fürstenaubruck,3633
 Rothenbrunnen,3637
 Scharans,3638
 Sils im Domleschg,3640
@@ -1136,10 +1142,13 @@ Cazis,3661
 Flerden,3662
 Masein,3663
 Thusis,3668
+Präz.3668
 Tschappina,3669
 Urmein,3670
 Safiental,3672
 Domleschg,3673
+Pratval,3673
+Paspels,3673
 Avers,3681
 Sufers,3695
 Andeer,3701
@@ -1606,6 +1615,7 @@ Centovalli,5397
 Gambarogno,5398
 Verzasca,5399
 Aigle,5401
+Les Mosses,5401
 Bex,5402
 Chessel,5403
 Corbeyrier,5404
