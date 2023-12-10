@@ -9,12 +9,12 @@ interface PowerData {
 }
 
 interface CantonID {
-  id: string;
   name: string;
+  id: number;
 }
 
 let cantonPower: {
-  [key: string]: {
+  [id: number]: {
     [mainCategory: string]: {
       [subCategory: string]: number;
     };
@@ -22,7 +22,7 @@ let cantonPower: {
 } = {};
 
 
-let cantonIDMap: { [key: string]: string } = {};
+let cantonIDMap: { [name: string]: number } = {};
 let subCategoryDefinitions: { [code: string]: string } = {};
 
 // Manually define the subcategory mappings
@@ -63,30 +63,31 @@ mainCategoryDefinitions['maincat_4'] = 'Fossil fuel';
                   return; // Skip this row or handle it as needed
                 }
                 let Canton = row.Canton;
-                if (!cantonPower[Canton]) {
-                  cantonPower[Canton] = {};
-                }
+                let id = cantonIDMap[Canton];
+                if(!id){
+                  console.log("problem with:" + Canton);
+                }else{
+                  if (!cantonPower[id]) {
+                    cantonPower[id] = {};
+                  }
+                  let data = cantonPower[id]![mainCategoryEn!];
+                  if (!data) {
+                    cantonPower[id]![mainCategoryEn!] = {};
+                    data = cantonPower[id]![mainCategoryEn!];
+                  }
 
-                let data = cantonPower[Canton]![mainCategoryEn!];
-                if (!data) {
-                  cantonPower[Canton]![mainCategoryEn!] = {};
-                  data = cantonPower[Canton]![mainCategoryEn!];
-                }
-
-                if (!data![subCategoryEn!]) {
-                  data![subCategoryEn!] = 0;
-                }
-
-                // Now you can safely update the data
-                data![subCategoryEn!] += parseFloat(row.TotalPower);
-              })
+                  if (!data![subCategoryEn!]) {
+                    data![subCategoryEn!] = 0;
+                  }
+                  // Now you can safely update the data
+                  data![subCategoryEn!] += parseFloat(row.TotalPower);
+                }})
               .on('end', () => {
                 // Output the aggregated data
-                let output = 'ID,Canton,MainCategory,SubCategory,TotalPower\n';
-                for (let canton in cantonPower) {
-                  const cantonId = cantonIDMap[canton];
-                  for (let mainCategory in cantonPower[canton]) {
-                    let data = cantonPower[canton];
+                let output = 'ID,MainCategory,SubCategory,TotalPower\n';
+                for (let id in cantonPower) {
+                  for (let mainCategory in cantonPower[id]) {
+                    let data = cantonPower[id];
                     if (data != undefined){
                       let data1 = data [mainCategory];
                       if (data1!= undefined){
@@ -94,7 +95,7 @@ mainCategoryDefinitions['maincat_4'] = 'Fossil fuel';
                           let data2= data1 [subCategory];
                           if (data2!= undefined){
                              let totalPower= data2.toFixed(2);
-                            output += `${cantonId},${canton},${mainCategory},${subCategory},${totalPower}\n`;
+                            output += `${id},${mainCategory},${subCategory},${totalPower}\n`;
                           } 
                           }
                             
