@@ -34,8 +34,6 @@ type municipalityPropertiesType = {
 
 type DataType = {
   ID: string;
-  Canton?: string;
-  Municipality?: string;
   MainCategory: string;
   SubCategory: string;
   TotalPower: string;
@@ -43,102 +41,64 @@ type DataType = {
 
 function App() {
   const { state, cantons, municipalities } = useSwissAtlas();
-  const [data, setData] = useState<DataType[] | null>(null);
   const [currentView, setCurrentView] = useState<"canton" | "municipality">("canton");
   const [selectedEnergySource, setSelectedEnergySource] = useState('All');
 
 
   const handleViewChange = (view: "canton" | "municipality") => {
     setCurrentView(view);
-    requestData(view); // Fetch data based on the selected view
   };
-
-  const requestData = async (view: "canton" | "municipality") => {
-    try {
-      const endpoint = view === "canton" ? "/cantons" : "/municipalities";
-      const response = await fetch(endpoint);
-      const dat = await response.json();
-      setData(dat.message.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
+  
   useEffect(() => {
-    requestData(currentView);
-  }, [currentView]);
-
-  useEffect(() => {
-    if (data) {
-      const filteredData = selectedEnergySource === 'All' 
-        ? data 
-        : data.filter(d => d.SubCategory === selectedEnergySource);
-
-      const powerValues = filteredData.map(d => parseFloat(d.TotalPower));
-
-      if (currentView === "canton") {
-        // Update cantons
-        const minPower = Math.min(...powerValues);
-        const maxPower = Math.max(...powerValues);
-        const powerScale = scaleLinear().domain([minPower, maxPower]).range([0, 1]);
-        cantons.features.forEach(canton => {
-          const cantonData = filteredData.find(d => d.ID === canton.properties.id.toString());
-          const power = cantonData ? parseFloat(cantonData.TotalPower) : 0;
-          const scaledPower = powerScale(power);
-          const properties = canton?.properties as cantonPropertiesType;
-          
-          if (properties) {
-            properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)})`;
-          }
-        });
-      } else {
-       const minPower = Math.max(0.1, Math.min(...powerValues)); 
-        const maxPower = Math.max(...powerValues);
-        // Use a logarithmic scale for better differentiation of small values
-         const powerScale = scaleLog().domain([minPower, maxPower]).range([0, 1]);
-         
-        //const municipalityMap = new Map<number, any>(municipalities.features.map(feature => [feature.properties.id, feature]));
-        //const powerValuesNumbers = data.map(d => parseFloat(d.TotalPower)).filter((v): v is number => !isNaN(v));
-    
-        // Use a quantile scale for the color mapping
-        /*const colorScale = scaleQuantile<number>()
-          .domain(powerValuesNumbers)
-          .range([
-            "#f7fbff", "#deebf7", "#c6dbef", 
-            "#9ecae1", "#6baed6", "#4292c6", 
-            "#2171b5", "#08519c", "#08306b"  // This range can be any set of colors you choose
-          ]);*/
-          /*const minPower = Math.min(...powerValuesNumbers);
-          const maxPower = Math.max(...powerValuesNumbers);
-
-          // Create a quantize scale with the numeric power values
-          /*const colorScale = scaleQuantize<number>()
-            .domain([minPower, maxPower])
-            .range([
-              // Define your range of colors
-              "#f7fbff", "#deebf7", "#c6dbef", 
-              "#9ecae1", "#6baed6", "#4292c6", 
-              "#2171b5", "#08519c", "#08306b"
-            ]);*/
-
-            municipalities.features.forEach(municipality => {
-              const municipalityData = filteredData.find(d => d.ID === municipality.properties.id.toString());
-              const power = municipalityData ? parseFloat(municipalityData.TotalPower) : 0;
-              const scaledPower = powerScale(power);
-              console.log(scaledPower);
-          
-              const properties = municipality.properties as municipalityPropertiesType;
-              properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)}, 1)`;
-              municipality.properties = properties;
-              /*if (!isNaN(power)) {
-              properties.fill = colorScale(power) as string;
-            } else {
-              console.error(`Invalid power value for ID: ${d.ID} with power: ${d.TotalPower}`);
-            }*/
-            });
+    const fetchData = async () => {
+      try {
+        const endpoint = currentView === "canton" ? "/cantons" : "/municipalities";
+        const response = await fetch(endpoint);
+        const data = ((await response.json()).message.data)as DataType[];
+  
+        const filteredData = selectedEnergySource === 'All' ? data : data.filter(d => d.SubCategory === selectedEnergySource);
+        const powerValues = filteredData.map(d => parseFloat(d.TotalPower));
+  
+        if (currentView === "canton") {
+          // Update cantons
+          const minPower = Math.min(...powerValues);
+          const maxPower = Math.max(...powerValues);
+          const powerScale = scaleLog().domain([minPower, maxPower]).range([0, 1]);
+          cantons.features.forEach(canton => {
+            const cantonData = filteredData.find(d => d.ID === (canton.properties as cantonPropertiesType).id.toString());
+            const power = cantonData ? parseFloat(cantonData.TotalPower) : 0;
+            const scaledPower = powerScale(power);
+            const properties = canton?.properties as cantonPropertiesType;
+  
+            if (properties) {
+              properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)})`;
+            }
+          });
+        } else {
+          const minPower = Math.max(0.1, Math.min(...powerValues));
+          const maxPower = Math.max(...powerValues);
+          // Use a logarithmic scale for better differentiation of small values
+          const powerScale = scaleLog().domain([minPower, maxPower]).range([0, 1]);
+  
+          municipalities.features.forEach(municipality => {
+            const municipalityData = filteredData.find(d => d.ID === (municipality.properties as municipalityPropertiesType).id.toString());
+            const power = municipalityData ? parseFloat(municipalityData.TotalPower) : 0;
+            const scaledPower = powerScale(power);
+            const properties = municipality.properties as municipalityPropertiesType;
+            properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)}, 1)`;
+            //console.log("fill changed for: "+ properties.name)
+            municipality.properties = properties;
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
       }
-    }
-  }, [data, currentView]); // Add currentView as a dependency
+    };
+  
+    fetchData(); // Call the async function to fetch and process data
+    
+  }, [currentView, selectedEnergySource]); // Add necessary dependencies
+  
 
   return (
     <Layout>

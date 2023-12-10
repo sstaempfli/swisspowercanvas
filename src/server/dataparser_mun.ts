@@ -8,17 +8,15 @@ interface PowerData {
   SubCategory: string;
   TotalPower: string;
 }
-
-interface MunicipalityIDPLZ {
-  id: string;
+interface MunicipalityID{
   name: string;
-  PLZ: string;
+  id: number
 }
 
+
 let municipalityPower: {
-  [id: string]: {
+  [id: number]: {
     totalPower: number;
-    name: string;
     categories: {
       [mainCategory: string]: {
         [subCategory: string]: number;
@@ -27,13 +25,7 @@ let municipalityPower: {
   };
 } = {};
 
-let municipalityIDPLZMap: {
-  [PLZ: string]: {
-    id: string;
-    name: string;
-  };
-} = {};
-
+let municipalityIDMap: { [key: string]: number } = {};
 let subCategoryDefinitions: { [code: string]: string } = {};
 
 // Manually define the subcategory mappings
@@ -60,33 +52,34 @@ mainCategoryDefinitions['maincat_4'] = 'Fossil fuel';
 
 
 
-// Manually defined category mappings (same as before)
 
-// Read the PLZ to ID and name mapping
-fs.createReadStream('src/server/data/municipalityIDPLZmapping.csv')
+
+
+fs.createReadStream("src/server/data/municipalityIDMapping.csv")
   .pipe(csv())
-  .on('data', (row: MunicipalityIDPLZ) => {
-    municipalityIDPLZMap[row.PLZ] = { id: row.id, name: row.name };
+  .on("data", (row: MunicipalityID) => {
+    municipalityIDMap[row.name] = row.id;
   })
-  .on('end', () => {
+  .on("end", () => {
     // Process the power data
     fs.createReadStream('src/server/data/ElectricityProductionPlant.csv')
       .pipe(csv())
       .on('data', (row: PowerData) => {
-        let postCode = row.PostCode;
-        let municipalityInfo = municipalityIDPLZMap[postCode];
-        if (municipalityInfo) {
+        
+        let name = row.Municipality.trim();
+        let id = municipalityIDMap[name];
+        if (!id){
+          console.log("|"+name+"|")
+        }else{
           let totalPower = parseFloat(row.TotalPower) || 0;
-          let municipalityEntry = municipalityPower[municipalityInfo.id];
-
+          let municipalityEntry = municipalityPower[id];
           if (!municipalityEntry) {
             // Initialize the entry if it doesn't exist
-            municipalityPower[municipalityInfo.id] = {
-              totalPower: totalPower,
-              name: municipalityInfo.name,
-              categories: {
-                [mainCategoryDefinitions[row.MainCategory]!]: {
-                  [subCategoryDefinitions[row.SubCategory]!]: totalPower
+            municipalityPower[id] = {
+            totalPower: totalPower,
+            categories: {
+              [mainCategoryDefinitions[row.MainCategory]!]: {
+                [subCategoryDefinitions[row.SubCategory]!]: totalPower
                 }
               }
             };
@@ -94,7 +87,6 @@ fs.createReadStream('src/server/data/municipalityIDPLZmapping.csv')
             // Update the existing entry
             municipalityEntry.totalPower += totalPower;
             let categoryEntry = municipalityEntry.categories[mainCategoryDefinitions[row.MainCategory]!];
-
             if (!categoryEntry) {
               // Initialize the category entry if it doesn't exist
               municipalityEntry.categories[mainCategoryDefinitions[row.MainCategory]!] = {
@@ -110,18 +102,20 @@ fs.createReadStream('src/server/data/municipalityIDPLZmapping.csv')
       })
       .on('end', () => {
         // Compile the CSV output
-        let output = 'ID,Municipality,MainCategory,SubCategory,TotalPower\n';
+        let output = 'ID,MainCategory,SubCategory,TotalPower\n';
         for (let id in municipalityPower) {
           let municipality = municipalityPower[id];
           for (let mainCategory in municipality!.categories) {
             for (let subCategory in municipality!.categories[mainCategory]) {
               let catTotalPower = municipality!.categories[mainCategory]![subCategory];
-              output += `${id},${municipality!.name},${mainCategory},${subCategory},${catTotalPower!.toFixed(2)}\n`;
+              output += `${id},${mainCategory},${subCategory},${catTotalPower!.toFixed(2)}\n`;
             }
           }
         }
         // Write the results to a CSV file
         fs.writeFileSync('src/server/data/municipalitiesPower.csv', output);
-        console.log('Municipality CSV file successfully processed');
-      });
+      console.log('Municipality CSV file successfully processed');
+    });
   });
+  
+  
