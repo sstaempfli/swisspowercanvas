@@ -105,7 +105,7 @@ mainCategoryDefinitions['maincat_4'] = 'Fossil fuel';
                   }
                 }
                 // Write the results to a CSV file
-                fs.writeFileSync('src/server/data/cantonsTotalPower.csv', output);
+                fs.writeFileSync('src/server/data/cantonsPower.csv', output);
                 console.log('CSV file successfully processed');
               });
           });

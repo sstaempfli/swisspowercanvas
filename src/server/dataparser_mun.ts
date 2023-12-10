@@ -121,7 +121,7 @@ fs.createReadStream('src/server/data/municipalityIDPLZmapping.csv')
           }
         }
         // Write the results to a CSV file
-        fs.writeFileSync('src/server/data/municipalitiesTotalPower.csv', output);
+        fs.writeFileSync('src/server/data/municipalitiesPower.csv', output);
         console.log('Municipality CSV file successfully processed');
       });
   });
