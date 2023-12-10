@@ -55,7 +55,7 @@ function App() {
 
   const requestData = async (view: "canton" | "municipality") => {
     try {
-      const endpoint = view === "canton" ? "/hello" : "/municipalities";
+      const endpoint = view === "canton" ? "/cantons" : "/municipalities";
       const response = await fetch(endpoint);
       const dat = await response.json();
       setData(dat.message.data);
