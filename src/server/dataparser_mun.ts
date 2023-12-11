@@ -70,27 +70,14 @@ fs.createReadStream("src/server/data/PLZO_CSV_LV95.csv")
   .on("end", () => {
     // Process the power data
     let i = 0;
-    let a = [] as string[];
     fs.createReadStream('src/server/data/ElectricityProductionPlant.csv')
       .pipe(csv())
       .on('data', (row: PowerData) => {
         
         let plz = parseInt(row.PostCode);
-        let name = row.Municipality;
         let id = municipalityPLZMap[plz];
         if (!id){
-          if (a.includes(name)){
-
-          }else{
-            i += 1;
-            a.push(name)
-            //console.log("|"+name+"|"+row.PostCode+"|")
-          }
-          if (plz == 4444){
-            console.log(plz)
-          }
-          
-          
+          i += 1;
         }else if (id.length === 1){
           let uid = id[0]
           let totalPower = parseFloat(row.TotalPower) || 0;
@@ -167,7 +154,7 @@ fs.createReadStream("src/server/data/PLZO_CSV_LV95.csv")
         }
         // Write the results to a CSV file
         fs.writeFileSync('src/server/data/municipalitiesPower.csv', output);
-      console.log('Municipality CSV file successfully processed: ' + i + " not correctly in id mapping");
+      console.log('Municipality CSV file processed => ' + i + " had no PLZ in mapping.");
     });
   });
   
