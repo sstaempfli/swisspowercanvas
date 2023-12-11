@@ -3,14 +3,22 @@ import csv from 'csv-parser';
 
 interface PowerData {
   Municipality: string;
-  PostCode: string;
+  PostCode: number;
   MainCategory: string;
   SubCategory: string;
   TotalPower: string;
 }
-interface MunicipalityID{
-  name: string;
-  id: number
+interface MunicipalityPLZ{
+  Ortschaftsname: string;
+  PLZ: number;
+  Zusatzziffer: number;
+  Gemeindename: string;
+  BFS_Nr: number;
+  Kantonskürzel: string;
+  E: number;
+  N: number;
+  Sprache: string;
+
 }
 
 
@@ -25,7 +33,7 @@ let municipalityPower: {
   };
 } = {};
 
-let municipalityIDMap: { [key: string]: number } = {};
+let municipalityPLZMap: { [key: number]: number } = {};
 let subCategoryDefinitions: { [code: string]: string } = {};
 
 // Manually define the subcategory mappings
@@ -50,26 +58,32 @@ mainCategoryDefinitions['maincat_4'] = 'Fossil fuel';
 // Read the PLZ to ID and name mapping
 
 
-
-
-
-
-
-fs.createReadStream("src/server/data/municipalityIDMapping.csv")
+fs.createReadStream("src/server/data/PLZO_CSV_LV95.csv")
   .pipe(csv())
-  .on("data", (row: MunicipalityID) => {
-    municipalityIDMap[row.name] = row.id;
+  .on("data", (row: MunicipalityPLZ) => {
+    municipalityPLZMap[row.PLZ] = row.BFS_Nr;
   })
   .on("end", () => {
     // Process the power data
+    let i = 0;
+    let a = [] as string[];
     fs.createReadStream('src/server/data/ElectricityProductionPlant.csv')
       .pipe(csv())
       .on('data', (row: PowerData) => {
         
-        let name = row.Municipality.trim();
-        let id = municipalityIDMap[name];
+        let plz = row.PostCode;
+        let name = row.Municipality;
+        let id = municipalityPLZMap[plz];
         if (!id){
-          console.log("|"+name+"|")
+          if (a.includes(name)){
+
+          }else{
+            i += 1;
+            a.push(name)
+            //console.log("|"+name+"|"+row.PostCode+"|")
+          }
+          
+          
         }else{
           let totalPower = parseFloat(row.TotalPower) || 0;
           let municipalityEntry = municipalityPower[id];
@@ -114,7 +128,7 @@ fs.createReadStream("src/server/data/municipalityIDMapping.csv")
         }
         // Write the results to a CSV file
         fs.writeFileSync('src/server/data/municipalitiesPower.csv', output);
-      console.log('Municipality CSV file successfully processed');
+      console.log('Municipality CSV file successfully processed: ' + i + " not correctly in id mapping");
     });
   });
   
