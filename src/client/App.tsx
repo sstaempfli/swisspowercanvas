@@ -78,28 +78,27 @@ function App() {
           // Use a logarithmic scale for better differentiation of small values
           const powerScale = scaleLog().domain([min, max]).range([0, 1]);
 
-          let i = 0;
+          
           municipalities.features.forEach(municipality => {
             const municipalityData = filteredData.filter(d => d.ID == (municipality.properties as municipalityPropertiesType).id);
 
             var power = 0;
             municipalityData.forEach(k => power += parseFloat(k.TotalPower));
 
-            if (power == 0){
-              console.log((municipality.properties as municipalityPropertiesType).name + (municipality.properties as municipalityPropertiesType).id);
-              i += 1;
-            }
-
             const scaledPower = powerScale(power);
             const properties = municipality.properties as municipalityPropertiesType;
             properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)}, 1)`;
-            //console.log("fill changed for: "+ properties.name)
             municipality.properties = properties;
           });
-          var a = [] as number[]
+
+          /*var a = [] as number[]
+          filteredData.forEach(x => {if(municipalities.features.filter(mun => (mun.properties as municipalityPropertiesType).id == x.ID).length >= 1){}else{console.log(x.ID + " nomatch")}});
+          municipalities.features.forEach(x => {if(filteredData.filter(mun => (mun.ID == (x.properties as municipalityPropertiesType).id)).length >= 1){}else{console.log((x.properties as municipalityPropertiesType).id + " is white")}});
           filteredData.forEach(x => {if(a.includes(x.ID)){
           }else{a.push(x.ID)}})
-          console.log(i + "|" + municipalities.features.length + "|" + filteredData.length + "|" + a.length); // => we have id withc dont match
+          console.log(municipalities.features.length + "|" + filteredData.length + "|" + a.length);
+          */
+
         }
       } catch (error) {
         console.error("Error:", error);

@@ -18,6 +18,7 @@ ID,MainCategory,SubCategory,TotalPower
 12,Other renewable energies,Photovoltaic,1135.52
 13,Other renewable energies,Photovoltaic,1189.02
 14,Other renewable energies,Photovoltaic,2276.05
+21,Other renewable energies,Photovoltaic,563.65
 22,Other renewable energies,Photovoltaic,287.89
 23,Other renewable energies,Photovoltaic,379.64
 24,Other renewable energies,Photovoltaic,499.78
@@ -28,7 +29,11 @@ ID,MainCategory,SubCategory,TotalPower
 28,Other renewable energies,Photovoltaic,609.55
 28,Other renewable energies,Biomass,20.00
 29,Other renewable energies,Photovoltaic,402.48
+30,Other renewable energies,Photovoltaic,1118.06
+30,Other renewable energies,Biomass,25.00
+30,Hydroelectric power,Hydroelectric power,5.00
 31,Other renewable energies,Photovoltaic,1429.56
+32,Other renewable energies,Photovoltaic,215.22
 33,Other renewable energies,Photovoltaic,1058.53
 34,Other renewable energies,Photovoltaic,2626.11
 34,Other renewable energies,Biomass,83.33
@@ -259,9 +264,6 @@ ID,MainCategory,SubCategory,TotalPower
 261,Other renewable energies,Waste,19600.00
 261,Hydroelectric power,Hydroelectric power,4516.00
 261,Fossil fuel,Natural gas,10761.20
-291,Other renewable energies,Photovoltaic,1896.93
-291,Other renewable energies,Biomass,25.00
-291,Hydroelectric power,Hydroelectric power,5.00
 292,Other renewable energies,Photovoltaic,2623.59
 293,Other renewable energies,Photovoltaic,7671.20
 293,Other renewable energies,Biomass,225.00
@@ -295,8 +297,8 @@ ID,MainCategory,SubCategory,TotalPower
 306,Other renewable energies,Biomass,103.67
 307,Other renewable energies,Photovoltaic,1136.66
 309,Other renewable energies,Photovoltaic,640.05
-310,Other renewable energies,Photovoltaic,2944.74
-311,Other renewable energies,Photovoltaic,2855.90
+310,Other renewable energies,Photovoltaic,2883.62
+311,Other renewable energies,Photovoltaic,2794.78
 311,Other renewable energies,Biomass,190.00
 311,Hydroelectric power,Hydroelectric power,12.50
 312,Other renewable energies,Photovoltaic,4461.17
@@ -474,21 +476,22 @@ ID,MainCategory,SubCategory,TotalPower
 533,Other renewable energies,Photovoltaic,6892.71
 533,Other renewable energies,Biomass,330.00
 533,Hydroelectric power,Hydroelectric power,951.00
-535,Other renewable energies,Photovoltaic,489.01
+535,Other renewable energies,Photovoltaic,427.89
+536,Other renewable energies,Photovoltaic,427.89
 538,Other renewable energies,Photovoltaic,6802.65
 538,Other renewable energies,Biomass,11.30
 538,Hydroelectric power,Hydroelectric power,46.20
 540,Other renewable energies,Photovoltaic,3323.78
 541,Other renewable energies,Photovoltaic,442.44
 543,Other renewable energies,Photovoltaic,2048.38
-544,Other renewable energies,Photovoltaic,4061.50
+544,Other renewable energies,Photovoltaic,4000.38
 544,Other renewable energies,Biomass,320.00
-546,Other renewable energies,Photovoltaic,3403.06
+546,Other renewable energies,Photovoltaic,3280.80
 551,Other renewable energies,Photovoltaic,1024.19
 552,Other renewable energies,Photovoltaic,1712.39
 552,Other renewable energies,Biomass,200.00
 552,Hydroelectric power,Hydroelectric power,239.40
-553,Other renewable energies,Photovoltaic,489.01
+553,Other renewable energies,Photovoltaic,427.89
 554,Other renewable energies,Photovoltaic,2737.66
 554,Other renewable energies,Biomass,200.00
 554,Hydroelectric power,Hydroelectric power,1018.40
@@ -1820,9 +1823,9 @@ ID,MainCategory,SubCategory,TotalPower
 3001,Hydroelectric power,Hydroelectric power,49.75
 3002,Other renewable energies,Photovoltaic,1826.67
 3002,Hydroelectric power,Hydroelectric power,212.86
-3003,Other renewable energies,Photovoltaic,609.66
+3003,Other renewable energies,Photovoltaic,956.12
 3003,Hydroelectric power,Hydroelectric power,212.86
-3004,Other renewable energies,Photovoltaic,3978.85
+3004,Other renewable energies,Photovoltaic,4381.42
 3004,Other renewable energies,Biomass,266.25
 3004,Hydroelectric power,Hydroelectric power,43.00
 3005,Other renewable energies,Photovoltaic,2505.03
@@ -1830,8 +1833,8 @@ ID,MainCategory,SubCategory,TotalPower
 3005,Other renewable energies,Waste,2850.00
 3005,Hydroelectric power,Hydroelectric power,8608.25
 3005,Fossil fuel,Natural gas,1016.00
-3006,Other renewable energies,Photovoltaic,1315.58
-3006,Hydroelectric power,Hydroelectric power,212.86
+3006,Other renewable energies,Photovoltaic,1578.77
+3006,Hydroelectric power,Hydroelectric power,425.71
 3007,Other renewable energies,Photovoltaic,3009.26
 3007,Other renewable energies,Biomass,266.25
 3007,Hydroelectric power,Hydroelectric power,15.00
@@ -1866,16 +1869,19 @@ ID,MainCategory,SubCategory,TotalPower
 3102,Other renewable energies,Photovoltaic,2196.02
 3102,Other renewable energies,Biomass,10.00
 3102,Hydroelectric power,Hydroelectric power,2.00
+3103,Other renewable energies,Photovoltaic,5798.82
+3103,Other renewable energies,Biomass,40.00
+3103,Hydroelectric power,Hydroelectric power,1894.19
+3103,Fossil fuel,Natural gas,520.00
 3104,Other renewable energies,Photovoltaic,7607.12
 3104,Other renewable energies,Biomass,54.75
 3104,Hydroelectric power,Hydroelectric power,15.08
+3105,Other renewable energies,Photovoltaic,283.14
+3105,Hydroelectric power,Hydroelectric power,836.67
+3105,Fossil fuel,Natural gas,260.00
 3111,Other renewable energies,Photovoltaic,6006.17
 3111,Other renewable energies,Biomass,11.25
 3111,Hydroelectric power,Hydroelectric power,178.32
-3112,Other renewable energies,Photovoltaic,6081.96
-3112,Other renewable energies,Biomass,40.00
-3112,Hydroelectric power,Hydroelectric power,2730.86
-3112,Fossil fuel,Natural gas,780.00
 3201,Other renewable energies,Photovoltaic,2347.80
 3202,Other renewable energies,Photovoltaic,3713.30
 3202,Other renewable energies,Biomass,60.18
@@ -2001,10 +2007,14 @@ ID,MainCategory,SubCategory,TotalPower
 3360,Hydroelectric power,Hydroelectric power,4633.61
 3360,Other renewable energies,Photovoltaic,3950.08
 3360,Other renewable energies,Biomass,740.00
-3374,Hydroelectric power,Hydroelectric power,190.25
-3374,Other renewable energies,Photovoltaic,354.97
-3379,Other renewable energies,Photovoltaic,6205.15
-3379,Hydroelectric power,Hydroelectric power,1883.32
+3372,Other renewable energies,Photovoltaic,368.40
+3374,Hydroelectric power,Hydroelectric power,380.50
+3374,Other renewable energies,Photovoltaic,709.93
+3375,Other renewable energies,Photovoltaic,609.34
+3375,Other renewable energies,Wind energy,3.50
+3378,Other renewable energies,Photovoltaic,1848.99
+3379,Other renewable energies,Photovoltaic,8186.63
+3379,Hydroelectric power,Hydroelectric power,1886.72
 3392,Other renewable energies,Photovoltaic,10635.73
 3392,Other renewable energies,Biomass,422.50
 3392,Other renewable energies,Waste,7333.33
@@ -2020,12 +2030,9 @@ ID,MainCategory,SubCategory,TotalPower
 3395,Other renewable energies,Wind energy,3.50
 3395,Other renewable energies,Biomass,30.00
 3395,Hydroelectric power,Hydroelectric power,1555.92
-3396,Other renewable energies,Photovoltaic,7379.44
-3396,Other renewable energies,Wind energy,3.50
-3396,Hydroelectric power,Hydroelectric power,434.51
-3401,Other renewable energies,Photovoltaic,2580.91
+3401,Other renewable energies,Photovoltaic,3784.95
 3401,Other renewable energies,Biomass,111.50
-3401,Hydroelectric power,Hydroelectric power,90.50
+3401,Hydroelectric power,Hydroelectric power,118.50
 3402,Other renewable energies,Photovoltaic,5954.61
 3402,Other renewable energies,Biomass,361.50
 3402,Hydroelectric power,Hydroelectric power,265.25
@@ -2402,13 +2409,14 @@ ID,MainCategory,SubCategory,TotalPower
 4131,Other renewable energies,Photovoltaic,1732.59
 4132,Other renewable energies,Photovoltaic,249.72
 4132,Hydroelectric power,Hydroelectric power,13.00
+4133,Other renewable energies,Photovoltaic,347.79
 4134,Other renewable energies,Photovoltaic,1724.10
 4135,Other renewable energies,Photovoltaic,1790.29
 4135,Other renewable energies,Wind energy,5.00
 4136,Other renewable energies,Photovoltaic,901.73
 4137,Other renewable energies,Photovoltaic,234.85
 4138,Other renewable energies,Photovoltaic,951.00
-4139,Other renewable energies,Photovoltaic,2264.49
+4139,Other renewable energies,Photovoltaic,1916.70
 4140,Other renewable energies,Photovoltaic,1415.98
 4141,Other renewable energies,Photovoltaic,3519.89
 4142,Other renewable energies,Photovoltaic,467.25
@@ -2424,6 +2432,7 @@ ID,MainCategory,SubCategory,TotalPower
 4163,Other renewable energies,Photovoltaic,4338.57
 4164,Other renewable energies,Photovoltaic,447.11
 4165,Other renewable energies,Photovoltaic,2793.69
+4166,Other renewable energies,Photovoltaic,941.63
 4169,Other renewable energies,Photovoltaic,1682.99
 4169,Other renewable energies,Biomass,320.00
 4169,Hydroelectric power,Hydroelectric power,53000.00
@@ -2435,13 +2444,13 @@ ID,MainCategory,SubCategory,TotalPower
 4176,Other renewable energies,Photovoltaic,453.28
 4177,Other renewable energies,Biomass,8154.00
 4177,Other renewable energies,Photovoltaic,1845.25
+4179,Other renewable energies,Photovoltaic,415.05
 4181,Other renewable energies,Photovoltaic,2538.72
 4182,Other renewable energies,Photovoltaic,882.52
 4182,Other renewable energies,Biomass,185.00
 4183,Other renewable energies,Photovoltaic,887.83
 4184,Other renewable energies,Photovoltaic,1285.36
 4185,Other renewable energies,Photovoltaic,2199.59
-4186,Other renewable energies,Photovoltaic,1356.68
 4191,Other renewable energies,Photovoltaic,2769.67
 4191,Other renewable energies,Biomass,135.10
 4191,Hydroelectric power,Hydroelectric power,175.50
@@ -2810,16 +2819,19 @@ ID,MainCategory,SubCategory,TotalPower
 5181,Other renewable energies,Photovoltaic,453.23
 5186,Other renewable energies,Photovoltaic,998.13
 5187,Other renewable energies,Photovoltaic,369.50
-5189,Other renewable energies,Photovoltaic,1864.26
+5189,Other renewable energies,Photovoltaic,1692.55
 5192,Other renewable energies,Photovoltaic,12567.45
 5192,Hydroelectric power,Hydroelectric power,4375.80
 5192,Fossil fuel,Natural gas,344.80
 5193,Other renewable energies,Photovoltaic,606.49
 5194,Other renewable energies,Photovoltaic,4989.07
 5194,Other renewable energies,Biomass,263.50
+5195,Other renewable energies,Photovoltaic,147.49
+5195,Hydroelectric power,Hydroelectric power,950.00
 5196,Other renewable energies,Photovoltaic,1030.11
 5196,Fossil fuel,Natural gas,152.80
 5196,Hydroelectric power,Hydroelectric power,20.80
+5197,Other renewable energies,Photovoltaic,771.04
 5198,Other renewable energies,Photovoltaic,413.52
 5199,Other renewable energies,Photovoltaic,3852.63
 5200,Other renewable energies,Photovoltaic,369.71
@@ -2834,10 +2846,11 @@ ID,MainCategory,SubCategory,TotalPower
 5212,Other renewable energies,Photovoltaic,1379.06
 5214,Other renewable energies,Photovoltaic,1690.15
 5216,Other renewable energies,Photovoltaic,740.13
+5219,Other renewable energies,Photovoltaic,524.20
 5221,Other renewable energies,Photovoltaic,315.76
 5225,Other renewable energies,Photovoltaic,429.94
-5226,Other renewable energies,Photovoltaic,4426.59
-5227,Other renewable energies,Photovoltaic,1283.61
+5226,Other renewable energies,Photovoltaic,2385.00
+5227,Other renewable energies,Photovoltaic,1111.91
 5227,Hydroelectric power,Hydroelectric power,16.00
 5230,Other renewable energies,Photovoltaic,164.42
 5230,Fossil fuel,Natural gas,1.32
@@ -2849,11 +2862,9 @@ ID,MainCategory,SubCategory,TotalPower
 5238,Other renewable energies,Photovoltaic,2955.98
 5238,Hydroelectric power,Hydroelectric power,950.00
 5239,Other renewable energies,Photovoltaic,2027.71
-5240,Other renewable energies,Photovoltaic,1575.22
-5240,Hydroelectric power,Hydroelectric power,950.00
 5242,Other renewable energies,Photovoltaic,4104.59
 5242,Fossil fuel,Natural gas,35.00
-5249,Other renewable energies,Photovoltaic,6264.40
+5249,Other renewable energies,Photovoltaic,6396.89
 5250,Other renewable energies,Photovoltaic,1151.79
 5250,Fossil fuel,Natural gas,35.00
 5251,Other renewable energies,Photovoltaic,3939.50
@@ -2884,6 +2895,7 @@ ID,MainCategory,SubCategory,TotalPower
 5324,Other renewable energies,Photovoltaic,890.04
 5324,Hydroelectric power,Hydroelectric power,87.00
 5391,Other renewable energies,Photovoltaic,71.70
+5394,Other renewable energies,Photovoltaic,2385.00
 5396,Other renewable energies,Photovoltaic,1580.70
 5397,Other renewable energies,Photovoltaic,408.39
 5397,Hydroelectric power,Hydroelectric power,3195.00
@@ -3731,8 +3743,10 @@ ID,MainCategory,SubCategory,TotalPower
 6730,Hydroelectric power,Hydroelectric power,32.50
 6741,Other renewable energies,Photovoltaic,1004.02
 6742,Other renewable energies,Photovoltaic,772.09
-6743,Other renewable energies,Photovoltaic,510.43
-6743,Other renewable energies,Wind energy,1726.63
+6743,Other renewable energies,Photovoltaic,255.21
+6743,Other renewable energies,Wind energy,863.31
+6744,Other renewable energies,Photovoltaic,255.21
+6744,Other renewable energies,Wind energy,863.31
 6745,Other renewable energies,Photovoltaic,127.29
 6748,Other renewable energies,Photovoltaic,430.53
 6750,Other renewable energies,Wind energy,3.50
@@ -3760,10 +3774,14 @@ ID,MainCategory,SubCategory,TotalPower
 6784,Other renewable energies,Photovoltaic,9113.66
 6785,Other renewable energies,Photovoltaic,2644.69
 6785,Other renewable energies,Biomass,633.33
+6787,Other renewable energies,Photovoltaic,219.47
+6787,Other renewable energies,Biomass,115.00
 6789,Other renewable energies,Photovoltaic,358.16
 6790,Other renewable energies,Photovoltaic,2879.27
 6790,Other renewable energies,Biomass,633.33
 6792,Other renewable energies,Photovoltaic,428.34
+6793,Other renewable energies,Photovoltaic,219.47
+6793,Other renewable energies,Biomass,115.00
 6800,Other renewable energies,Photovoltaic,1563.82
 6800,Other renewable energies,Biomass,633.33
 6806,Other renewable energies,Photovoltaic,704.64
@@ -3774,5 +3792,3 @@ ID,MainCategory,SubCategory,TotalPower
 6809,Other renewable energies,Photovoltaic,1185.79
 6810,Other renewable energies,Photovoltaic,2324.61
 6810,Other renewable energies,Biomass,732.00
-6811,Other renewable energies,Photovoltaic,438.94
-6811,Other renewable energies,Biomass,230.00
