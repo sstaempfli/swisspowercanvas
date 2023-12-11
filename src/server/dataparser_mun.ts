@@ -3,20 +3,20 @@ import csv from 'csv-parser';
 
 interface PowerData {
   Municipality: string;
-  PostCode: number;
+  PostCode: string;
   MainCategory: string;
   SubCategory: string;
   TotalPower: string;
 }
 interface MunicipalityPLZ{
   Ortschaftsname: string;
-  PLZ: number;
-  Zusatzziffer: number;
+  PLZ: string;
+  Zusatzziffer: string;
   Gemeindename: string;
-  BFS_Nr: number;
+  BFS_Nr: string;
   Kantonskürzel: string;
-  E: number;
-  N: number;
+  E: string;
+  N: string;
   Sprache: string;
 
 }
@@ -33,7 +33,7 @@ let municipalityPower: {
   };
 } = {};
 
-let municipalityPLZMap: { [key: number]: number } = {};
+let municipalityPLZMap: { [key: number]: [number] } = {};
 let subCategoryDefinitions: { [code: string]: string } = {};
 
 // Manually define the subcategory mappings
@@ -61,7 +61,11 @@ mainCategoryDefinitions['maincat_4'] = 'Fossil fuel';
 fs.createReadStream("src/server/data/PLZO_CSV_LV95.csv")
   .pipe(csv())
   .on("data", (row: MunicipalityPLZ) => {
-    municipalityPLZMap[row.PLZ] = row.BFS_Nr;
+    if (!municipalityPLZMap[parseInt(row.PLZ)]){
+      municipalityPLZMap[parseInt(row.PLZ)] = [parseInt(row.BFS_Nr)];
+    }else{
+      municipalityPLZMap[parseInt(row.PLZ)]?.push(parseInt(row.BFS_Nr));
+    }
   })
   .on("end", () => {
     // Process the power data
@@ -71,7 +75,7 @@ fs.createReadStream("src/server/data/PLZO_CSV_LV95.csv")
       .pipe(csv())
       .on('data', (row: PowerData) => {
         
-        let plz = row.PostCode;
+        let plz = parseInt(row.PostCode);
         let name = row.Municipality;
         let id = municipalityPLZMap[plz];
         if (!id){
@@ -82,14 +86,18 @@ fs.createReadStream("src/server/data/PLZO_CSV_LV95.csv")
             a.push(name)
             //console.log("|"+name+"|"+row.PostCode+"|")
           }
+          if (plz == 4444){
+            console.log(plz)
+          }
           
           
-        }else{
+        }else if (id.length === 1){
+          let uid = id[0]
           let totalPower = parseFloat(row.TotalPower) || 0;
-          let municipalityEntry = municipalityPower[id];
+          let municipalityEntry = municipalityPower[uid];
           if (!municipalityEntry) {
             // Initialize the entry if it doesn't exist
-            municipalityPower[id] = {
+            municipalityPower[uid] = {
             totalPower: totalPower,
             categories: {
               [mainCategoryDefinitions[row.MainCategory]!]: {
@@ -112,6 +120,37 @@ fs.createReadStream("src/server/data/PLZO_CSV_LV95.csv")
               categoryEntry[subCategoryDefinitions[row.SubCategory]!] = subCategoryTotal + totalPower;
             }
           }
+        }else{
+          let totalPower = parseFloat(row.TotalPower) || 0;
+          totalPower = totalPower / id.length;
+          id.forEach(uid => {
+            let municipalityEntry = municipalityPower[uid];
+            if (!municipalityEntry) {
+              // Initialize the entry if it doesn't exist
+              municipalityPower[uid] = {
+                totalPower: totalPower,
+                categories: {
+                  [mainCategoryDefinitions[row.MainCategory]!]: {
+                    [subCategoryDefinitions[row.SubCategory]!]: totalPower
+                  }
+                }
+              };
+            } else {
+              // Update the existing entry
+              municipalityEntry.totalPower += totalPower;
+              let categoryEntry = municipalityEntry.categories[mainCategoryDefinitions[row.MainCategory]!];
+              if (!categoryEntry) {
+                // Initialize the category entry if it doesn't exist
+                municipalityEntry.categories[mainCategoryDefinitions[row.MainCategory]!] = {
+                  [subCategoryDefinitions[row.SubCategory]!]: totalPower
+                };
+              } else {
+                // Update the existing category entry
+                let subCategoryTotal = categoryEntry[subCategoryDefinitions[row.SubCategory]!] || 0;
+                categoryEntry[subCategoryDefinitions[row.SubCategory]!] = subCategoryTotal + totalPower;
+              }
+            }
+          })
         }
       })
       .on('end', () => {

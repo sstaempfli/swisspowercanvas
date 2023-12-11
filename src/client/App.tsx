@@ -3,7 +3,6 @@ import "./App.css";
 import Layout from "./Layout";
 import SwissMap from "./SwissMap";
 import { useSwissAtlas } from "./state/hooks";
-import { scaleLinear } from 'd3-scale';
 import { scaleLog } from 'd3-scale';
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
@@ -33,7 +32,7 @@ type municipalityPropertiesType = {
 };
 
 type DataType = {
-  ID: string;
+  ID: number;
   MainCategory: string;
   SubCategory: string;
   TotalPower: string;
@@ -65,7 +64,7 @@ function App() {
           const maxPower = Math.max(...powerValues);
           const powerScale = scaleLog().domain([minPower, maxPower]).range([0, 1]);
           cantons.features.forEach(canton => {
-            const cantonData = filteredData.find(d => d.ID === (canton.properties as cantonPropertiesType).id.toString());
+            const cantonData = filteredData.find(d => d.ID == (canton.properties as cantonPropertiesType).id);
             const power = cantonData ? parseFloat(cantonData.TotalPower) : 0;
             const scaledPower = powerScale(power);
             const properties = canton?.properties as cantonPropertiesType;
@@ -79,16 +78,23 @@ function App() {
           const maxPower = Math.max(...powerValues);
           // Use a logarithmic scale for better differentiation of small values
           const powerScale = scaleLog().domain([minPower, maxPower]).range([0, 1]);
-  
+
+          let i = 0;
           municipalities.features.forEach(municipality => {
-            const municipalityData = filteredData.find(d => d.ID === (municipality.properties as municipalityPropertiesType).id.toString());
+            const municipalityData = filteredData.find(d => d.ID == (municipality.properties as municipalityPropertiesType).id);
+
             const power = municipalityData ? parseFloat(municipalityData.TotalPower) : 0;
+            if (power == 0){
+              console.log((municipality.properties as municipalityPropertiesType).name + (municipality.properties as municipalityPropertiesType).id);
+              i += 1;
+            }
             const scaledPower = powerScale(power);
             const properties = municipality.properties as municipalityPropertiesType;
             properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)}, 1)`;
             //console.log("fill changed for: "+ properties.name)
             municipality.properties = properties;
           });
+          console.log(i + "|" + municipalities.features.length + "|" + filteredData.length); // => we have id withc dont match
         }
       } catch (error) {
         console.error("Error:", error);
