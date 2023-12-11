@@ -56,13 +56,14 @@ function App() {
         const data = ((await response.json()).message.data)as DataType[];
   
         const filteredData = selectedEnergySource === 'All' ? data : data.filter(d => d.SubCategory === selectedEnergySource);
-        const powerValues = filteredData.map(d => parseFloat(d.TotalPower));
+        
+        const powerVal = filteredData.map(k => filteredData.filter(k2 => k.ID == k2.ID).map(k3 => parseFloat(k3.TotalPower)).reduce((a,b) => {return a + b},0))
+        const max = Math.max(...powerVal)
+        const min = Math.min(...powerVal)
   
         if (currentView === "canton") {
           // Update cantons
-          const minPower = Math.min(...powerValues);
-          const maxPower = Math.max(...powerValues);
-          const powerScale = scaleLog().domain([minPower, maxPower]).range([0, 1]);
+          const powerScale = scaleLog().domain([min, max]).range([0, 1]);
           cantons.features.forEach(canton => {
             const cantonData = filteredData.find(d => d.ID == (canton.properties as cantonPropertiesType).id);
             const power = cantonData ? parseFloat(cantonData.TotalPower) : 0;
@@ -74,27 +75,31 @@ function App() {
             }
           });
         } else {
-          const minPower = Math.max(0.1, Math.min(...powerValues));
-          const maxPower = Math.max(...powerValues);
           // Use a logarithmic scale for better differentiation of small values
-          const powerScale = scaleLog().domain([minPower, maxPower]).range([0, 1]);
+          const powerScale = scaleLog().domain([min, max]).range([0, 1]);
 
           let i = 0;
           municipalities.features.forEach(municipality => {
-            const municipalityData = filteredData.find(d => d.ID == (municipality.properties as municipalityPropertiesType).id);
+            const municipalityData = filteredData.filter(d => d.ID == (municipality.properties as municipalityPropertiesType).id);
 
-            const power = municipalityData ? parseFloat(municipalityData.TotalPower) : 0;
+            var power = 0;
+            municipalityData.forEach(k => power += parseFloat(k.TotalPower));
+
             if (power == 0){
               console.log((municipality.properties as municipalityPropertiesType).name + (municipality.properties as municipalityPropertiesType).id);
               i += 1;
             }
+
             const scaledPower = powerScale(power);
             const properties = municipality.properties as municipalityPropertiesType;
             properties.fill = `rgba(0, 0, ${Math.round(scaledPower * 255)}, 1)`;
             //console.log("fill changed for: "+ properties.name)
             municipality.properties = properties;
           });
-          console.log(i + "|" + municipalities.features.length + "|" + filteredData.length); // => we have id withc dont match
+          var a = [] as number[]
+          filteredData.forEach(x => {if(a.includes(x.ID)){
+          }else{a.push(x.ID)}})
+          console.log(i + "|" + municipalities.features.length + "|" + filteredData.length + "|" + a.length); // => we have id withc dont match
         }
       } catch (error) {
         console.error("Error:", error);
