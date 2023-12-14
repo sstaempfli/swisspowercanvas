@@ -93,8 +93,8 @@ Document here the major milestones of your code and future planned steps.\
   - [X] [Present the data nicely in the map](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tree/4-present-the-data-nicely-in-the-map?ref_type=heads)
 
 - [X] Add support for municipalities and enable switching between cantons and municipalities
-  - [X] Update backend
-  - [X] Update frontend
+  - [X] [Update backend](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/5/commits)
+  - [X] [Update frontend] (https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/5/commits)
 
 - [X] Display more information to the user about the different productions
   - [X] Enhance backend to support various power categories
