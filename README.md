@@ -26,6 +26,8 @@ Additionally, users can choose to display the information either per municipalit
 Add here all used datasources and their origin.
 
 https://opendata.swiss/de/dataset/elektrizitatsproduktionsanlagen
+https://swiss-maps.vercel.app
+
 
 ### Tasks
 Define all the tasks you want your app to solve.
@@ -84,15 +86,23 @@ docker run -it --rm -p 5173:5173 my-webapp bash
 
 ## Milestones
 Document here the major milestones of your code and future planned steps.\
-- [ ] Display a map of Switzerland showcasing the data on the amount of power produced in each canton.
+- [X] Display a map of Switzerland showcasing the data on the amount of power produced in each canton.
   - [X] [Implement the display of the Swiss map on the frontend.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/2)
   - [X] [Create the backend to calculate the values of produced energy for each canton.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/1)
   - [X] [Establish a connection between the frontend and backend.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/3)
   - [X] [Present the data nicely in the map](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tree/4-present-the-data-nicely-in-the-map?ref_type=heads)
 
-- [ ] Milestone 2
-  - [ ] Sub-task: ...
-  - [ ] Sub-task: ...
+- [X] Add support for municipalities and enable switching between cantons and municipalities
+  - [X] [Update backend](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/5/commits)
+  - [X] [Update frontend](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/5/commits)
+
+- [X] Display more information to the user about the different productions
+  - [X] [Enhance backend to support various power categories](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/6)
+  - [X] [Implement frontend functionality to switch between different power categories](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/6)
+  - [X] [Implement frontend display of information on hover](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/9)
+
+
+
 
 Create a list subtask.\
 Open an issue for each subtask. Once you create a subtask, link the corresponding issue.\
@@ -108,6 +118,8 @@ We will use this to understand what your struggles and where did the weekly effo
 
 In Week 1, our primary challenge revolved around showcasing the Swiss map on the website. The most significant hurdle we encountered was the process of coloring the map. Parsing the file in the backend proved to be a straightforward task and transmitting the data from the backend to the frontend also did not present too many troubles.
 
+In Weeks 2 and 3, we introduced new features to our web app. Now, users have the ability to switch between municipalities and cantons, as well as select different types of power productions. This proved to be quite challenging, and we encountered various difficulties. THe most annoying challenge was mapping power plants to municipalities, which turned out to be a tedious task requiring manual labour. We discovered that some postal codes belong to multiple municipalities, and in some cases, even to two municipalities in different cantons. Additionally, we faced issues with the display of our map. React consistently seemed to render the map one interaction too late. We spent considerable time debugging and rewriting our code multiple times until we successfully adjusted the state changes, ensuring that React received accurate updates. On a positive note, implementing information display when hovering over the map surprisingly proved to be straightforward.
+
 
 ## Versioning
 Create stable versions of your code each week by using gitlab tags.\
@@ -117,9 +129,9 @@ Then list here the weekly tags. \
 We will evaluate your code every week, based on the corresponding version.
 
 Tags:
-- Milestone 1: ...
-- Milestone 2: ...
-- Milestone 3: ...
+- Milestone 1: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestone1completed
+- Milestone 2: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestones2&3
+- Milestone 3: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestones2&3
 - ...
 
 
