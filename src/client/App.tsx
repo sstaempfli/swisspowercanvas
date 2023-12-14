@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import Layout from "./Layout";
 import SwissMap from "./SwissMap";
@@ -52,11 +52,12 @@ function App() {
     setCurrentView(view);
   };
 
-
+  const svgRef = useRef<SVGSVGElement>(null);
   
 
   useEffect(() => {
     const fetchData = async () => {
+      const svg = d3.select(svgRef.current);
       try {
         const endpoint =
           currentView === "canton" ? "/cantons" : "/municipalities";
@@ -80,13 +81,41 @@ function App() {
         const min = 1;
 
         const newColors: Record<string, string> = {};
+        const powerScale = d3.scaleLog().domain([min, max]).range([0, 1]);
+        const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
+
+
+        const maxL = Math.log10(max)
+        const minL = Math.log10(min)
+        const delta = (maxL - minL) / 9;
+        setLegendData(Array.from({length:10}, (_, i) => Math.pow(10,((i*delta) + minL))));
+        svg.select("#gCircle").selectAll('circle').remove();
+        svg.select("#gText").selectAll('text').remove();
+        svg.select("#gCircle")
+        .selectAll('circle')
+        .data(legendData)
+        .enter()
+        .append('circle')
+        .attr('cx', (_, i) => i * 30 + 30)
+        .attr('cy', 50)
+        .attr('r', 19)
+        .attr('fill', i => colorMaker(powerScale(i)));
+        svg.select("#gText")
+        .selectAll('text')
+        .data(legendData)
+        .enter()
+        .append('text')
+        .attr('x', (_, i) => i * 30 + 30)
+        .attr('y', 0)
+        .attr('text', "asdfasdf")
+        .attr('text-anchor', 'middle')
+        .attr('fill', 'black');
+
 
         if (currentView === "canton") {
           // Update cantons
           //console.log(min + "|" + max );
-          const powerScale = d3.scaleLog().domain([min, max]).range([0, 1]);
-          const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
-
+         
           cantons.features.forEach((canton) => {
             const cantonData = filteredData.filter(
               (d) => d.ID == (canton.properties as cantonPropertiesType).id
@@ -105,17 +134,11 @@ function App() {
               }
             }
           });
-
-          const delta = (max - min) / 9;
-          setLegendData(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)));
-          console.log("|" + legendData + "|")
           
 
         } else {
-          // Use a logarithmic scale for better differentiation of small values
-          const powerScale = d3.scaleLog().domain([min, max]).range([0, 1]);
-          const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
-
+          
+         
           municipalities.features.forEach((municipality) => {
             const municipalityData = filteredData.filter(
               (d) =>
@@ -141,7 +164,6 @@ function App() {
           });
           const delta = (max - min) / 9;
           setLegendData(Array.from({length:10}, (_, i)=> powerScale((i*delta) + min)));
-          console.log(legendData + " "+ delta+ " " + max)
           
         }
         setColors(newColors);
@@ -152,18 +174,6 @@ function App() {
 
     fetchData(); // Call the async function to fetch and process data
   }, [currentView, selectedEnergySource]); // Add necessary dependencies
-
-  const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
-  const svg = d3.select("#svgLegend");
-  svg.selectAll("#gLegend")
-  .data(legendData)
-  .enter()
-  .append("circle")
-  .attr("cx", function(_,i){return 60 + i*60})
-  .attr("cy", 19)
-  .attr("r", 19)
-  .attr("fill", function(d){return colorMaker(d) })
-  .attr("text", d => d)
   
   return (
     <Layout>
@@ -188,8 +198,9 @@ function App() {
         currentView={currentView}
         colors={colors}
       />
-      <svg id="svgLegend" width="1000" height="100">
-      <g id="gLegend"></g>
+      <svg ref={svgRef} id="svgLegend" width="1000" height="100">
+      <g id="gCircle"></g>
+      <g id="gText"></g>
       </svg>
     </Layout>
   );
