@@ -118,6 +118,8 @@ We will use this to understand what your struggles and where did the weekly effo
 
 In Week 1, our primary challenge revolved around showcasing the Swiss map on the website. The most significant hurdle we encountered was the process of coloring the map. Parsing the file in the backend proved to be a straightforward task and transmitting the data from the backend to the frontend also did not present too many troubles.
 
+In Weeks 2 and 3, we introduced new features to our web app. Now, users have the ability to switch between municipalities and cantons, as well as select different types of power productions. This proved to be quite challenging, and we encountered various difficulties. THe most annoying challenge was mapping power plants to municipalities, which turned out to be a tedious task requiring manual labour. We discovered that some postal codes belong to multiple municipalities, and in some cases, even to two municipalities in different cantons. Additionally, we faced issues with the display of our map. React consistently seemed to render the map one interaction too late. We spent considerable time debugging and rewriting our code multiple times until we successfully adjusted the state changes, ensuring that React received accurate updates. On a positive note, implementing information display when hovering over the map surprisingly proved to be straightforward.
+
 
 ## Versioning
 Create stable versions of your code each week by using gitlab tags.\
