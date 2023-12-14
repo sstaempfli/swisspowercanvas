@@ -46,6 +46,7 @@ function App() {
   );
   const [selectedEnergySource, setSelectedEnergySource] = useState("All");
   const [colors, setColors] = useState<Record<string, string>>({});
+  const [energyData, setEnergyData] = useState<Record<string, string>>({});
 
   const handleViewChange = (view: "canton" | "municipality") => {
     setCurrentView(view);
@@ -76,6 +77,7 @@ function App() {
         const min = Math.min(...powerVal);
 
         const newColors: Record<string, string> = {};
+        const newEnergyData: Record<string, string> = {};
 
         if (currentView === "canton") {
           // Update cantons
@@ -91,6 +93,7 @@ function App() {
               newColors[properties.id] = `rgba(0, 0, ${Math.round(
                 scaledPower * 255
               )})`;
+              newEnergyData[properties.name] = `${power}`;
             }
           });
         } else {
@@ -116,6 +119,7 @@ function App() {
               newColors[properties.id] = `rgba(0, 0, ${Math.round(
                 scaledPower * 255
               )}, 1)`;
+              newEnergyData[properties.name] = `${power}`;
             }
           });
 
@@ -128,6 +132,7 @@ function App() {
           */
         }
         setColors(newColors);
+        setEnergyData(newEnergyData);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -158,6 +163,7 @@ function App() {
         municipalities={municipalities}
         currentView={currentView}
         colors={colors}
+        energyData={energyData}
       />
     </Layout>
   );
