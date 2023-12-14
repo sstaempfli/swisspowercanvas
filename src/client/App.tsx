@@ -46,12 +46,14 @@ function App() {
   );
   const [selectedEnergySource, setSelectedEnergySource] = useState("All");
   const [colors, setColors] = useState<Record<string, string>>({});
+  const [legendData, setLegendData] = useState<number[]>([]);
 
   const handleViewChange = (view: "canton" | "municipality") => {
     setCurrentView(view);
   };
 
-  const svg = d3.select("#svgLegend");
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,8 +106,9 @@ function App() {
             }
           });
 
-          const delta = (max - min) / 9
-          const a = (Array.from({length:10}, (_, i)=> powerScale(i*delta + min)))
+          const delta = (max - min) / 9;
+          setLegendData(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)));
+          
 
         } else {
           // Use a logarithmic scale for better differentiation of small values
@@ -135,17 +138,9 @@ function App() {
               }
             }
           });
-          const delta = (max - min) / 9
-          const a = (Array.from({length:10}, (_, i)=> powerScale(i*delta + min)));
-          svg.select("#gLegend").selectAll("circle").remove(); // Clear municipalities
-          svg.select("#gLegend")
-          .selectAll("circle")
-          .data(a)
-          .join("#circle")
-          .attr("cx", function(_,i){return 30 + i*60})
-          .attr("cy", 19)
-          .attr("r", 19)
-          .attr("fill", function(d){return colorMaker(d) })
+          const delta = (max - min) / 9;
+          setLegendData(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)));
+          
         }
         setColors(newColors);
       } catch (error) {
@@ -155,6 +150,17 @@ function App() {
 
     fetchData(); // Call the async function to fetch and process data
   }, [currentView, selectedEnergySource]); // Add necessary dependencies
+
+  const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
+  const svg = d3.select("#svgLegend");
+  svg.selectAll("#gLegend")
+  .data(legendData)
+  .enter()
+  .append("circle")
+  .attr("cx", function(_,i){return 30 + i*60})
+  .attr("cy", 19)
+  .attr("r", 19)
+  .attr("fill", function(d){return colorMaker(d) })
   
   return (
     <Layout>
