@@ -3,8 +3,7 @@ import "./App.css";
 import Layout from "./Layout";
 import SwissMap from "./SwissMap";
 import { useSwissAtlas } from "./state/hooks";
-import {interpolateViridis} from "d3";
-import { scaleLinear, scaleLog, scaleSequential} from "d3-scale";
+import * as d3 from "d3";
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
 const energySources = [
@@ -52,6 +51,8 @@ function App() {
     setCurrentView(view);
   };
 
+  const [scaleArray, setScaleArray] = useState<number[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -81,8 +82,8 @@ function App() {
         if (currentView === "canton") {
           // Update cantons
           //console.log(min + "|" + max );
-          const powerScale = scaleLog().domain([min, max]).range([0, 1]);
-          const colorMaker = scaleSequential().domain([0,1]).interpolator(interpolateViridis);
+          const powerScale = d3.scaleLog().domain([min, max]).range([0, 1]);
+          const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
 
           cantons.features.forEach((canton) => {
             const cantonData = filteredData.filter(
@@ -102,10 +103,14 @@ function App() {
               }
             }
           });
+
+          const delta = (max - min) / 9
+          setScaleArray(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)))
+
         } else {
           // Use a logarithmic scale for better differentiation of small values
-          const powerScale = scaleLog().domain([min, max]).range([0, 1]);
-          const colorMaker = scaleSequential().domain([0,1]).interpolator(interpolateViridis);
+          const powerScale = d3.scaleLog().domain([min, max]).range([0, 1]);
+          const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
 
           municipalities.features.forEach((municipality) => {
             const municipalityData = filteredData.filter(
@@ -130,14 +135,8 @@ function App() {
               }
             }
           });
-
-          /*var a = [] as number[]
-          filteredData.forEach(x => {if(municipalities.features.filter(mun => (mun.properties as municipalityPropertiesType).id == x.ID).length >= 1){}else{console.log(x.ID + " nomatch")}});
-          municipalities.features.forEach(x => {if(filteredData.filter(mun => (mun.ID == (x.properties as municipalityPropertiesType).id)).length >= 1){}else{console.log((x.properties as municipalityPropertiesType).id + " is white")}});
-          filteredData.forEach(x => {if(a.includes(x.ID)){
-          }else{a.push(x.ID)}})
-          console.log(municipalities.features.length + "|" + filteredData.length + "|" + a.length);
-          */
+          const delta = (max - min) / 9
+          setScaleArray(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)))
         }
         setColors(newColors);
       } catch (error) {
@@ -148,6 +147,20 @@ function App() {
     fetchData(); // Call the async function to fetch and process data
   }, [currentView, selectedEnergySource]); // Add necessary dependencies
 
+
+  const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
+  const svg = d3.select("#svgLegend")
+  const circles = svg.selectAll("#gLegend").selectAll("path") // Select existing circles
+  .data(scaleArray)
+  .join("path")
+  .attr("cx", (_, i) => 30 + i * 60)
+  .attr("cy", 19)
+  .attr("r", 19)
+  .attr("fill", d => colorMaker(d))
+  .attr("text", d => d);
+
+  circles.exit().remove(); // Remove any extra circles not needed
+  
   return (
     <Layout>
       <div>
@@ -171,6 +184,9 @@ function App() {
         currentView={currentView}
         colors={colors}
       />
+      <svg id="svgLegend" width="1000" height="100">
+      <g className="gLegend"></g>
+      </svg>
     </Layout>
   );
 }
