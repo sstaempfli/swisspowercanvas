@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { ChartProps, defaultChartProps } from "./types/chart";
 
@@ -34,6 +34,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
   height = defaultChartProps.height,
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const [tooltip, setTooltip] = useState<string | null>(null);
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -63,7 +64,15 @@ const SwissMap: React.FC<SwissMapProps> = ({
         .attr(
           "fill",
           (c) => colors[(c.properties as cantonPropertiesType).id] || "white"
-        ); // use the color associated with the canton ID or a default color
+        )
+        .on("mouseover", function (event, d) {
+          // Set tooltip to municipality name
+          setTooltip(`Canton: ${d.properties?.["name"]}`);
+        })
+        .on("mouseout", function (event, d) {
+          // Hide tooltip
+          setTooltip(null);
+        }); // use the color associated with the canton ID or a default color
     } else if (currentView === "municipality" && municipalities) {
       svg.select("#cantons").selectAll("path").remove(); // Clear cantons
       svg
@@ -76,16 +85,27 @@ const SwissMap: React.FC<SwissMapProps> = ({
           "fill",
           (c) =>
             colors[(c.properties as municipalitiesPropertiesType).id] || "white"
-        ); // use the color associated with the Municipality ID or a default color
+        )
+        .on("mouseover", function (event, d) {
+          // Set tooltip to municipality name
+          setTooltip(`Municipality: ${d.properties?.["name"]}`);
+        })
+        .on("mouseout", function (event, d) {
+          // Hide tooltip
+          setTooltip(null);
+        }); // use the color associated with the Municipality ID or a default color
     }
   }, [state, cantons, municipalities, currentView, width, height]);
 
   return (
-    <svg ref={svgRef} id="SwissMap" width={width} height={height}>
-      <g id="state"></g>
-      <g id="cantons"></g>
-      <g id="municipalities"></g>
-    </svg>
+    <div>
+      <svg ref={svgRef} id="SwissMap" width={width} height={height}>
+        <g id="state"></g>
+        <g id="cantons"></g>
+        <g id="municipalities"></g>
+      </svg>
+      {tooltip && <div className="tooltip">{tooltip}</div>}
+    </div>
   );
 };
 
