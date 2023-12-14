@@ -58,7 +58,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
       .join("path")
       .attr("class", "state")
       .attr("d", path)
-      .style("fill", "#808080");
+      .style("fill", "#0000FF");
 
     // Depending on the current view, clear and render the appropriate paths
     if (currentView === "canton" && cantons) {
