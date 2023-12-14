@@ -98,7 +98,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
           // Set tooltip to municipality name
           setTooltip({
             name: `Canton: ${d.properties?.["name"]}`,
-            power: `Produced: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
             x: event.clientX,
             y: event.clientY,
           });
@@ -107,7 +107,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
           // Update tooltip position
           setTooltip({
             name: `Canton: ${d.properties?.["name"]}`,
-            power: `Produced: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
             x: event.clientX,
             y: event.clientY,
           });
@@ -133,7 +133,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
           // Set tooltip to municipality name
           setTooltip({
             name: `Municipality: ${d.properties?.["name"]}`,
-            power: `Produced: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
             x: event.clientX,
             y: event.clientY,
           });
@@ -142,7 +142,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
           // Update tooltip position
           setTooltip({
             name: `Municipality: ${d.properties?.["name"]}`,
-            power: `Produced: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
             x: event.clientX,
             y: event.clientY,
           });
