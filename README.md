@@ -94,12 +94,12 @@ Document here the major milestones of your code and future planned steps.\
 
 - [X] Add support for municipalities and enable switching between cantons and municipalities
   - [X] [Update backend](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/5/commits)
-  - [X] [Update frontend] (https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/5/commits)
+  - [X] [Update frontend](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/5/commits)
 
 - [X] Display more information to the user about the different productions
-  - [X] Enhance backend to support various power categories
-  - [X] Implement frontend functionality to switch between different power categories
-  - [X] Implement frontend display of information on hover
+  - [X] [Enhance backend to support various power categories](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/6)
+  - [X] [Implement frontend functionality to switch between different power categories](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/6)
+  - [X] [Implement frontend display of information on hover](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/9)
 
 
 
