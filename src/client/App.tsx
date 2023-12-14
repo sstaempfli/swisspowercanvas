@@ -108,6 +108,7 @@ function App() {
 
           const delta = (max - min) / 9;
           setLegendData(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)));
+          console.log("|" + legendData + "|")
           
 
         } else {
@@ -139,7 +140,8 @@ function App() {
             }
           });
           const delta = (max - min) / 9;
-          setLegendData(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)));
+          setLegendData(Array.from({length:10}, (_, i)=> powerScale((i*delta) + min)));
+          console.log(legendData + " "+ delta+ " " + max)
           
         }
         setColors(newColors);
@@ -157,10 +159,11 @@ function App() {
   .data(legendData)
   .enter()
   .append("circle")
-  .attr("cx", function(_,i){return 30 + i*60})
+  .attr("cx", function(_,i){return 60 + i*60})
   .attr("cy", 19)
   .attr("r", 19)
   .attr("fill", function(d){return colorMaker(d) })
+  .attr("text", d => d)
   
   return (
     <Layout>
