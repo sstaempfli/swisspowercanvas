@@ -51,7 +51,7 @@ function App() {
     setCurrentView(view);
   };
 
-  const [scaleArray, setScaleArray] = useState<number[]>([]);
+  const svg = d3.select("#svgLegend");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,7 +105,7 @@ function App() {
           });
 
           const delta = (max - min) / 9
-          setScaleArray(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)))
+          const a = (Array.from({length:10}, (_, i)=> powerScale(i*delta + min)))
 
         } else {
           // Use a logarithmic scale for better differentiation of small values
@@ -136,7 +136,16 @@ function App() {
             }
           });
           const delta = (max - min) / 9
-          setScaleArray(Array.from({length:10}, (_, i)=> powerScale(i*delta + min)))
+          const a = (Array.from({length:10}, (_, i)=> powerScale(i*delta + min)));
+          svg.select("#gLegend").selectAll("circle").remove(); // Clear municipalities
+          svg.select("#gLegend")
+          .selectAll("circle")
+          .data(a)
+          .join("#circle")
+          .attr("cx", function(_,i){return 30 + i*60})
+          .attr("cy", 19)
+          .attr("r", 19)
+          .attr("fill", function(d){return colorMaker(d) })
         }
         setColors(newColors);
       } catch (error) {
@@ -146,20 +155,6 @@ function App() {
 
     fetchData(); // Call the async function to fetch and process data
   }, [currentView, selectedEnergySource]); // Add necessary dependencies
-
-
-  const colorMaker = d3.scaleSequential().domain([0,1]).interpolator(d3.interpolateViridis);
-  const svg = d3.select("#svgLegend")
-  const circles = svg.selectAll("#gLegend").selectAll("path") // Select existing circles
-  .data(scaleArray)
-  .join("path")
-  .attr("cx", (_, i) => 30 + i * 60)
-  .attr("cy", 19)
-  .attr("r", 19)
-  .attr("fill", d => colorMaker(d))
-  .attr("text", d => d);
-
-  circles.exit().remove(); // Remove any extra circles not needed
   
   return (
     <Layout>
@@ -185,7 +180,7 @@ function App() {
         colors={colors}
       />
       <svg id="svgLegend" width="1000" height="100">
-      <g className="gLegend"></g>
+      <g id="gLegend"></g>
       </svg>
     </Layout>
   );
