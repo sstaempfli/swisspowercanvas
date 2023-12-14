@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { ChartProps, defaultChartProps } from "./types/chart";
+import Tooltip from "./tooltip";
 
 interface SwissMapProps extends Partial<ChartProps> {
   state: GeoJSON.FeatureCollection;
@@ -42,28 +43,6 @@ const SwissMap: React.FC<SwissMapProps> = ({
     x: number;
     y: number;
   }>({ name: null, power: null, x: 0, y: 0 });
-
-  const TooltipBox = () => {
-    const { name, power, x, y } = tooltip;
-    if (!name) return null;
-
-    return (
-      <div
-        style={{
-          position: "fixed",
-          top: y,
-          left: x,
-          backgroundColor: "white",
-          border: "1px solid black",
-          padding: "5px",
-          pointerEvents: "none", // Add this line
-        }}
-      >
-        <div>{name}</div>
-        <div>{power}</div>
-      </div>
-    );
-  };
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -161,7 +140,13 @@ const SwissMap: React.FC<SwissMapProps> = ({
         <g id="cantons"></g>
         <g id="municipalities"></g>
       </svg>
-      <TooltipBox />
+      <Tooltip
+        name={tooltip.name}
+        power={tooltip.power}
+        x={tooltip.x}
+        y={tooltip.y}
+      />
+      ;
     </div>
   );
 };

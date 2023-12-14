@@ -83,10 +83,12 @@ function App() {
           // Update cantons
           const powerScale = scaleLog().domain([min, max]).range([0, 1]);
           cantons.features.forEach((canton) => {
-            const cantonData = filteredData.find(
+            const cantonData = filteredData.filter(
               (d) => d.ID == (canton.properties as cantonPropertiesType).id
             );
-            const power = cantonData ? parseFloat(cantonData.TotalPower) : 0;
+            var power = 0;
+            cantonData.forEach((k) => (power += parseFloat(k.TotalPower)));
+
             const scaledPower = powerScale(power);
             const properties = canton.properties as cantonPropertiesType;
             if (properties) {
