@@ -9,7 +9,7 @@ interface SwissMapProps extends Partial<ChartProps> {
   currentView: "canton" | "municipality";
 }
 
-type cantonPropertiesType = {
+type cantonPropertiesType = { 
   id: number
   name : string
   fill : string

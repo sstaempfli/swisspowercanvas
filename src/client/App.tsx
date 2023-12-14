@@ -112,22 +112,22 @@ function App() {
 
   return (
     <Layout>
-    <div>
-      <button onClick={() => handleViewChange("canton")}>Cantons</button>
-      <button onClick={() => handleViewChange("municipality")}>Municipalities</button>
-      <select onChange={(e) => setSelectedEnergySource(e.target.value)}>
-        <option value="All">All Energy Sources</option>
-        {energySources.map(source => (
-          <option key={source} value={source}>{source}</option>
-        ))}
-      </select>
-    </div>
-    <SwissMap
-      state={state}
-      cantons={cantons}
-      municipalities={municipalities}
-      currentView={currentView}
-    />
+      <div>
+        <button onClick={() => handleViewChange("canton")}>Cantons</button>
+        <button onClick={() => handleViewChange("municipality")}>Municipalities</button>
+        <select onChange={(e) => setSelectedEnergySource(e.target.value)}>
+          <option value="All">All Energy Sources</option>
+          {energySources.map(source => (
+            <option key={source} value={source}>{source}</option>
+          ))}
+        </select>
+      </div>
+      <SwissMap
+        state={state}
+        cantons={cantons}
+        municipalities={municipalities}
+        currentView={currentView}
+      />
   </Layout>
 );
 }
