@@ -89,27 +89,27 @@ function App() {
         const minL = Math.log10(min)
         const delta = (maxL - minL) / 9;
         setLegendData(Array.from({length:10}, (_, i) => Math.pow(10,((i*delta) + minL))));
-        svg.select("#gCircle").selectAll('circle').remove();
-        svg.select("#gText").selectAll('text').remove();
-        svg.select("#gCircle")
-        .selectAll('circle')
+        svg.select("#gLegend").selectAll('g').remove();
+
+        var group = svg.select("#gLegend")
+        .selectAll('g')
         .data(legendData)
         .enter()
+        .append("g")
+        .attr("transform", i => "translate("+((50 + powerScale(i) * 450) + i * 0.00001)+",50)");
+        
+        group
         .append('circle')
-        .attr('cx', (_, i) => i * 30 + 30)
-        .attr('cy', 50)
         .attr('r', 19)
         .attr('fill', i => colorMaker(powerScale(i)));
-        svg.select("#gText")
-        .selectAll('text')
-        .data(legendData)
-        .enter()
-        .append('text')
-        .attr('x', (_, i) => i * 30 + 30)
-        .attr('y', 0)
-        .attr('text', "asdfasdf")
-        .attr('text-anchor', 'middle')
-        .attr('fill', 'black');
+
+        group
+        .append("text")
+        .attr("dx", -25)
+        .attr("dy",19)
+        .text(i=>Math.floor(i))
+        .attr("fill", "#000000");
+
 
 
         if (currentView === "canton") {
@@ -199,8 +199,7 @@ function App() {
         colors={colors}
       />
       <svg ref={svgRef} id="svgLegend" width="1000" height="100">
-      <g id="gCircle"></g>
-      <g id="gText"></g>
+      <g id="gLegend"></g>
       </svg>
     </Layout>
   );
