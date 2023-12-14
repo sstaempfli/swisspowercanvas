@@ -34,7 +34,32 @@ const SwissMap: React.FC<SwissMapProps> = ({
   height = defaultChartProps.height,
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [tooltip, setTooltip] = useState<string | null>(null);
+  const [tooltip, setTooltip] = useState<{
+    content: string | null;
+    x: number;
+    y: number;
+  }>({ content: null, x: 0, y: 0 });
+
+  const TooltipBox = () => {
+    const { content, x, y } = tooltip;
+    if (!content) return null;
+
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: y,
+          left: x,
+          backgroundColor: "white",
+          border: "1px solid black",
+          padding: "5px",
+          pointerEvents: "none", // Add this line
+        }}
+      >
+        {content}
+      </div>
+    );
+  };
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -65,13 +90,25 @@ const SwissMap: React.FC<SwissMapProps> = ({
           "fill",
           (c) => colors[(c.properties as cantonPropertiesType).id] || "white"
         )
-        .on("mouseover", function (_event, d) {
+        .on("mouseover", function (event, d) {
           // Set tooltip to municipality name
-          setTooltip(`Canton: ${d.properties?.["name"]}`);
+          setTooltip({
+            content: `Canton: ${d.properties?.["name"]}`,
+            x: event.clientX,
+            y: event.clientY,
+          });
+        })
+        .on("mousemove", function (event, d) {
+          // Update tooltip position
+          setTooltip({
+            content: `Canton: ${d.properties?.["name"]}`,
+            x: event.clientX,
+            y: event.clientY,
+          });
         })
         .on("mouseout", function (_event, _d) {
           // Hide tooltip
-          setTooltip(null);
+          setTooltip({ content: null, x: 0, y: 0 });
         }); // use the color associated with the canton ID or a default color
     } else if (currentView === "municipality" && municipalities) {
       svg.select("#cantons").selectAll("path").remove(); // Clear cantons
@@ -86,13 +123,25 @@ const SwissMap: React.FC<SwissMapProps> = ({
           (c) =>
             colors[(c.properties as municipalitiesPropertiesType).id] || "white"
         )
-        .on("mouseover", function (_event, d) {
+        .on("mouseover", function (event, d) {
           // Set tooltip to municipality name
-          setTooltip(`Municipality: ${d.properties?.["name"]}`);
+          setTooltip({
+            content: `Municipality: ${d.properties?.["name"]}`,
+            x: event.clientX,
+            y: event.clientY,
+          });
+        })
+        .on("mousemove", function (event, d) {
+          // Set tooltip to municipality name
+          setTooltip({
+            content: `Municipality: ${d.properties?.["name"]}`,
+            x: event.clientX,
+            y: event.clientY,
+          });
         })
         .on("mouseout", function (_event, _d) {
           // Hide tooltip
-          setTooltip(null);
+          setTooltip({ content: null, x: 0, y: 0 });
         }); // use the color associated with the Municipality ID or a default color
     }
   }, [state, cantons, municipalities, currentView, width, height]);
@@ -104,7 +153,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
         <g id="cantons"></g>
         <g id="municipalities"></g>
       </svg>
-      {tooltip && <div className="tooltip">{tooltip}</div>}
+      <TooltipBox />
     </div>
   );
 };
