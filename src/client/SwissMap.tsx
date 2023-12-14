@@ -65,11 +65,11 @@ const SwissMap: React.FC<SwissMapProps> = ({
           "fill",
           (c) => colors[(c.properties as cantonPropertiesType).id] || "white"
         )
-        .on("mouseover", function (event, d) {
+        .on("mouseover", function (_event, d) {
           // Set tooltip to municipality name
           setTooltip(`Canton: ${d.properties?.["name"]}`);
         })
-        .on("mouseout", function (event, d) {
+        .on("mouseout", function (_event, _d) {
           // Hide tooltip
           setTooltip(null);
         }); // use the color associated with the canton ID or a default color
@@ -86,11 +86,11 @@ const SwissMap: React.FC<SwissMapProps> = ({
           (c) =>
             colors[(c.properties as municipalitiesPropertiesType).id] || "white"
         )
-        .on("mouseover", function (event, d) {
+        .on("mouseover", function (_event, d) {
           // Set tooltip to municipality name
           setTooltip(`Municipality: ${d.properties?.["name"]}`);
         })
-        .on("mouseout", function (event, d) {
+        .on("mouseout", function (_event, _d) {
           // Hide tooltip
           setTooltip(null);
         }); // use the color associated with the Municipality ID or a default color
