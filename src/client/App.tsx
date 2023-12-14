@@ -3,8 +3,8 @@ import "./App.css";
 import Layout from "./Layout";
 import SwissMap from "./SwissMap";
 import { useSwissAtlas } from "./state/hooks";
-import {interpolateViridis} from "d3";
-import { scaleLinear, scaleLog, scaleSequential} from "d3-scale";
+import { interpolateViridis } from "d3";
+import { scaleLog, scaleSequential } from "d3-scale";
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
 const energySources = [
@@ -84,31 +84,33 @@ function App() {
           // Update cantons
           //console.log(min + "|" + max );
           const powerScale = scaleLog().domain([min, max]).range([0, 1]);
-          const colorMaker = scaleSequential().domain([0,1]).interpolator(interpolateViridis);
+          const colorMaker = scaleSequential()
+            .domain([0, 1])
+            .interpolator(interpolateViridis);
 
           cantons.features.forEach((canton) => {
             const cantonData = filteredData.filter(
               (d) => d.ID == (canton.properties as cantonPropertiesType).id
             );
             var power = 0;
-            cantonData.forEach(
-              (k) => (power += parseFloat(k.TotalPower))
-            )
+            cantonData.forEach((k) => (power += parseFloat(k.TotalPower)));
             const scaledPower = powerScale(power);
             const properties = canton.properties as cantonPropertiesType;
             if (properties) {
-              if(power == 0){
+              if (power == 0) {
                 newColors[properties.id] = "rgba(128, 128, 128, 1)";
-              }else{
+              } else {
                 newColors[properties.id] = colorMaker(scaledPower);
               }
-              newEnergyData[properties.name] = `${power}`;
+              newEnergyData[properties.name] = power.toFixed(2);
             }
           });
         } else {
           // Use a logarithmic scale for better differentiation of small values
           const powerScale = scaleLog().domain([min, max]).range([0, 1]);
-          const colorMaker = scaleSequential().domain([0,1]).interpolator(interpolateViridis);
+          const colorMaker = scaleSequential()
+            .domain([0, 1])
+            .interpolator(interpolateViridis);
 
           municipalities.features.forEach((municipality) => {
             const municipalityData = filteredData.filter(
@@ -126,12 +128,12 @@ function App() {
             const properties =
               municipality.properties as municipalityPropertiesType;
             if (properties) {
-              if(power == 0){
+              if (power == 0) {
                 newColors[properties.id] = "rgba(128, 128, 128, 1)";
-              }else{
+              } else {
                 newColors[properties.id] = colorMaker(scaledPower);
               }
-              newEnergyData[properties.name] = `${power}`;
+              newEnergyData[properties.name] = power.toFixed(2);
             }
           });
 
