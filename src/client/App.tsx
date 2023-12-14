@@ -88,7 +88,7 @@ function App() {
         if (currentView === "canton") {
           // Update cantons
           //console.log(min + "|" + max );
-          const powerScale = scaleLinear().domain([min, max]).range([0, 1]);
+          const powerScale = scaleLog().domain([min, max]).range([0, 1]);
           const colorMaker = scaleSequential()
             .domain([0, 1])
             .interpolator(interpolateViridis);

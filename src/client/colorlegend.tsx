@@ -14,7 +14,7 @@ const ColorLegend: React.FC<ColorLegendProps> = ({ min, max }) => {
         {min}
       </text>
       <text x="300" y="40" textAnchor="end">
-        {max}
+        {Math.round(max)}
       </text>
       {[...Array(300).keys()].map((value) => (
         <rect
