@@ -26,6 +26,8 @@ Additionally, users can choose to display the information either per municipalit
 Add here all used datasources and their origin.
 
 https://opendata.swiss/de/dataset/elektrizitatsproduktionsanlagen
+https://swiss-maps.vercel.app
+
 
 ### Tasks
 Define all the tasks you want your app to solve.
@@ -84,15 +86,23 @@ docker run -it --rm -p 5173:5173 my-webapp bash
 
 ## Milestones
 Document here the major milestones of your code and future planned steps.\
-- [ ] Display a map of Switzerland showcasing the data on the amount of power produced in each canton.
+- [X] Display a map of Switzerland showcasing the data on the amount of power produced in each canton.
   - [X] [Implement the display of the Swiss map on the frontend.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/2)
   - [X] [Create the backend to calculate the values of produced energy for each canton.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/1)
   - [X] [Establish a connection between the frontend and backend.](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/3)
   - [X] [Present the data nicely in the map](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tree/4-present-the-data-nicely-in-the-map?ref_type=heads)
 
-- [ ] Milestone 2
-  - [ ] Sub-task: ...
-  - [ ] Sub-task: ...
+- [X] Add support for municipalities and enable switching between cantons and municipalities
+  - [X] Update backend
+  - [X] Update frontend
+
+- [X] Display more information to the user about the different productions
+  - [X] Enhance backend to support various power categories
+  - [X] Implement frontend functionality to switch between different power categories
+  - [X] Implement frontend display of information on hover
+
+
+
 
 Create a list subtask.\
 Open an issue for each subtask. Once you create a subtask, link the corresponding issue.\
