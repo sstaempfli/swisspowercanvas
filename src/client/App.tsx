@@ -4,7 +4,8 @@ import Layout from "./Layout";
 import SwissMap from "./SwissMap";
 import { useSwissAtlas } from "./state/hooks";
 import { interpolateViridis } from "d3";
-import { scaleLog, scaleSequential } from "d3-scale";
+import { scaleLinear, scaleLog, scaleSequential } from "d3-scale";
+import ColorLegend from "./colorlegend";
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
 const energySources = [
@@ -49,6 +50,9 @@ function App() {
   const [colors, setColors] = useState<Record<string, string>>({});
   const [energyData, setEnergyData] = useState<Record<string, string>>({});
 
+  const [minV, _setMinV] = useState(1);
+  const [maxV, setMaxV] = useState(10000000);
+
   const handleViewChange = (view: "canton" | "municipality") => {
     setCurrentView(view);
   };
@@ -76,6 +80,7 @@ function App() {
         );
         const max = Math.max(...powerVal);
         const min = 1;
+        setMaxV(max);
 
         const newColors: Record<string, string> = {};
         const newEnergyData: Record<string, string> = {};
@@ -83,7 +88,7 @@ function App() {
         if (currentView === "canton") {
           // Update cantons
           //console.log(min + "|" + max );
-          const powerScale = scaleLog().domain([min, max]).range([0, 1]);
+          const powerScale = scaleLinear().domain([min, max]).range([0, 1]);
           const colorMaker = scaleSequential()
             .domain([0, 1])
             .interpolator(interpolateViridis);
@@ -179,6 +184,7 @@ function App() {
         colors={colors}
         energyData={energyData}
       />
+      <ColorLegend min={minV} max={maxV} />
     </Layout>
   );
 }
