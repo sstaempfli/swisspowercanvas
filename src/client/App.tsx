@@ -6,6 +6,7 @@ import { useSwissAtlas } from "./state/hooks";
 import { interpolateViridis } from "d3";
 import { scaleLinear, scaleLog, scaleSequential } from "d3-scale";
 import ColorLegend from "./colorlegend";
+import Graph from "./graph";
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
 const energySources = [
@@ -185,6 +186,15 @@ function App() {
         energyData={energyData}
       />
       <ColorLegend min={minV} max={maxV} />
+      <Graph
+        data={[
+          { year: 2017, value: 100 },
+          { year: 2018, value: 120 },
+          { year: 2019, value: 150 },
+          { year: 2020, value: 180 },
+          { year: 2021, value: 200 },
+        ]}
+      />
     </Layout>
   );
 }
