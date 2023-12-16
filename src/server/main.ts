@@ -45,22 +45,42 @@ app.post("/graphData", async function (req, res) {
   if (grpahData.isCanton){
     path = "src/server/data/cantonsGraph.csv";
   }
-  let output = 'ID,MainCategory,SubCategory,TotalPower,Date\n';
-  let sumArray = [] as lineData[]
-  fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
-    //console.log(row.ID + "|" + grpahData.id);
-    if (row.ID == grpahData.id){
-      sumArray.push(row);
-    }
-  })
-  .on("end", () => {
-    sumArray.forEach((i) => {
-      output += `${i.ID},${i.MainCategory},${i.SubCategory},${i.TotalPower},${i.Date}\n`;
+
+  function processData(path:string, graphData:graphData){
+    return new Promise((resolve, reject) => {
+      let output = 'ID,MainCategory,SubCategory,TotalPower,Date\n';
+      let sumArray = [] as lineData[]
+
+      fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
+        //console.log(row.ID + "|" + grpahData.id);
+        if (row.ID == grpahData.id && row.SubCategory == graphData.energySource){
+          sumArray.push(row);
+        }
+      })
+      .on("end", () => {
+        
+        sumArray.forEach((i) => {
+          output += `${i.ID},${i.MainCategory},${i.SubCategory},${i.TotalPower},${i.Date}\n`;
+        })
+        console.log("fin")
+        resolve(output);
+      })
+      .on('error', (error) => {
+        reject(error); // Reject the promise if there's an error during processing
+      });
     })
+
+  }
+  processData(path,grpahData).then((result) => {
+  let a = result as string;
+  let json = papa.parse(a,{header: true, skipEmptyLines: true,});
+  res.status(200).json({ message: json });
+  })
+  .catch((error) => {
+    console.error('Error occurred:', error);
   });
-  console.log(output)
-  let json = papa.parse(output, { header: true, skipEmptyLines: true });
-  res.status(200).json({ message: json});
+  
+ 
 });
 
 // Do not change below this line
