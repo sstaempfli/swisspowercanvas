@@ -65,7 +65,7 @@ fs.createReadStream('src/server/data/cantonIDMapping.csv')
     let Canton = row.Canton;
     let id = cantonIDMap[Canton];
     if(!id || !mainCategory || !subCategory ||!date || !amount){
-      console.log("problem with:" + Canton);
+      console.log("problem with:" + row);
     }else{
       const temp = {id,mainCategory,subCategory, date, amount} as cantonPower;
       sumArray.push(temp)

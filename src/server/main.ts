@@ -44,15 +44,16 @@ app.post("/graphData", async function (req, res) {
   let path = "";
   if (grpahData.isCanton){
     path = "src/server/data/cantonsGraph.csv";
+  }else{
+    path = "src/server/data/municipalitiesGraph.csv"
   }
 
   function processData(path:string, graphData:graphData){
     return new Promise((resolve, reject) => {
-      let output = 'ID,MainCategory,SubCategory,TotalPower,Date\n';
+      let output = 'Date,TotalPower\n';
       let sumArray = [] as lineData[]
 
       fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
-        //console.log(row.ID + "|" + grpahData.id);
         if (row.ID == grpahData.id && row.SubCategory == graphData.energySource){
           sumArray.push(row);
         }
@@ -60,9 +61,9 @@ app.post("/graphData", async function (req, res) {
       .on("end", () => {
         
         sumArray.forEach((i) => {
-          output += `${i.ID},${i.MainCategory},${i.SubCategory},${i.TotalPower},${i.Date}\n`;
+          output += `${i.Date},${i.TotalPower}\n`;
         })
-        console.log("fin")
+        console.log(output)
         resolve(output);
       })
       .on('error', (error) => {

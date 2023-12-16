@@ -42,11 +42,8 @@ type DataType = {
 };
 
 type GraphDataType = {
-  ID: number;
-  MainCategory: string;
-  SubCategory: string;
-  TotalPower: string;
   Date:string;
+  TotalPower: string;
 };
 
 function App() {
@@ -66,7 +63,7 @@ function App() {
   };
 
   const requestDataGraph = async () =>{
-    const sendData = {id:"2",isCanton:true,energySource:"Photovoltaic"};
+    const sendData = {id:"2",isCanton:false,energySource:"Photovoltaic"};
     try {
       const response = await fetch("/graphData", {
         method: "POST",
