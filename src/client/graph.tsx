@@ -40,7 +40,7 @@ const Graph: React.FC<GraphProps> = ({ data }) => {
       .call(
         d3
           .axisBottom(x)
-          .tickFormat((d) => `${Math.floor(d)}`)
+          .tickFormat((d) => d.toString())
           .tickValues(uniqueYears)
       );
 

@@ -185,14 +185,20 @@ function App() {
         colors={colors}
         energyData={energyData}
       />
+
       <ColorLegend min={minV} max={maxV} />
+
       <Graph
         data={[
           { year: 2017, value: 100 },
-          { year: 2018, value: 120 },
-          { year: 2019, value: 150 },
-          { year: 2020, value: 180 },
-          { year: 2021, value: 200 },
+          { year: 2018, value: 20 },
+          { year: 2019, value: 30 },
+          { year: 2020, value: 20 },
+          { year: 2021, value: 100 },
+          { year: 2022, value: 0 },
+          { year: 2023, value: 10 },
+          { year: 2024, value: 260 },
+          { year: 2025, value: 400.2 },
         ]}
       />
     </Layout>
