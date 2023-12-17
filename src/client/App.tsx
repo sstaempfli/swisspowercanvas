@@ -42,6 +42,11 @@ type DataType = {
   TotalPower: string;
 };
 
+type GraphDataType = {
+  Date:string;
+  TotalPower: string;
+};
+
 function App() {
   const { state, cantons, municipalities } = useSwissAtlas();
   const [currentView, setCurrentView] = useState<"canton" | "municipality">(
@@ -57,6 +62,24 @@ function App() {
   const handleViewChange = (view: "canton" | "municipality") => {
     setCurrentView(view);
   };
+
+  const requestDataGraph = async () =>{
+    const sendData = {id:"2",isCanton:false,energySource:"Photovoltaic"};
+    try {
+      const response = await fetch("/graphData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(sendData),
+      });
+
+      const graphData = (await response.json()).message.data as GraphDataType;
+      console.log(graphData);
+    } catch (error) {
+      console.error('Error sending parameters:', error);
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
