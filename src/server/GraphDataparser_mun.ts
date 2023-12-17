@@ -22,18 +22,9 @@ interface MunicipalityPLZ{
 
 }
 
-
-type municipalityPower = {
-  id: number;
-  mainCategory: string;
-  subCategory: string;
-  date: string;
-  amount: string;
-}
-
+let aggregatedData: { [compositeKey: string]: number } = {};
 let municipalityPLZMap: { [key: number]: [number] } = {};
 let subCategoryDefinitions: { [code: string]: string } = {};
-let sumArray = [] as municipalityPower[]
 
 // Manually define the subcategory mappings
 subCategoryDefinitions['subcat_1'] = 'Hydroelectric power';
@@ -79,24 +70,31 @@ fs.createReadStream("src/server/data/PLZO_CSV_LV95.csv")
       id.forEach((id) => {
         const mainCategory = mainCategoryDefinitions[row.MainCategory];
         const subCategory = subCategoryDefinitions[row.SubCategory];
-        const date = row.BeginningOfOperation;
-        const amount = row.TotalPower;
-        if(!mainCategory || !subCategory ||!date || !amount){
+        const date = row.BeginningOfOperation.split("-")[0];
+        const amount = parseFloat(row.TotalPower);
+        if(!mainCategory || !subCategory ||!date || isNaN(amount)){
           console.log("problem with:" + row);
         }else{
-          const temp = {id,mainCategory,subCategory, date, amount} as municipalityPower;
-          sumArray.push(temp)
+          const compositeKey = `${id}$${mainCategory}$${subCategory}$${date}`;
+          // Aggregate the amount based on composite key
+          if (aggregatedData[compositeKey]) {
+            aggregatedData[compositeKey] += amount;
+          } else {
+            aggregatedData[compositeKey] = amount;
+          }
         }
       });
     }
   })
   .on('end', () => {
     // Output the aggregated data
-    let output = 'ID,MainCategory,SubCategory,TotalPower,Date\n';
-    // Write the results to a CSV file
-    sumArray.forEach((i) => {
-      output += `${i.id},${i.mainCategory},${i.subCategory},${i.amount},${i.date}\n`;
-    })
+  let output = 'ID,MainCategory,SubCategory,TotalPower,Date\n';
+  // Convert aggregatedData object back to array for writing to CSV
+  Object.keys(aggregatedData).forEach((compositeKey) => {
+    const [id, mainCategory, subCategory, date] = compositeKey.split('$');
+    output += `${id},${mainCategory},${subCategory},${aggregatedData[compositeKey]},${date}\n`;
+  });
+
     fs.writeFileSync('src/server/data/municipalitiesGraph.csv', output);
     console.log('Municipality CSV file processed');
   });
