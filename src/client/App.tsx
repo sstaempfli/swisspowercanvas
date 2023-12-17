@@ -6,6 +6,7 @@ import { useSwissAtlas } from "./state/hooks";
 import { interpolateViridis } from "d3";
 import { scaleLinear, scaleLog, scaleSequential } from "d3-scale";
 import ColorLegend from "./colorlegend";
+import Graph from "./graph";
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
 const energySources = [
@@ -207,8 +208,22 @@ function App() {
         colors={colors}
         energyData={energyData}
       />
+
       <ColorLegend min={minV} max={maxV} />
-      <button onClick={() => requestDataGraph()}>id1 is canton = true cats = all</button>
+
+      <Graph
+        data={[
+          { year: 2017, value: 100 },
+          { year: 2018, value: 20 },
+          { year: 2019, value: 30 },
+          { year: 2020, value: 20 },
+          { year: 2021, value: 100 },
+          { year: 2022, value: 0 },
+          { year: 2023, value: 10 },
+          { year: 2024, value: 260 },
+          { year: 2025, value: 400.2 },
+        ]}
+      />
     </Layout>
   );
 }
