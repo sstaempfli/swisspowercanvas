@@ -1,5 +1,6 @@
 import React from "react";
 import * as d3 from "d3";
+import { format } from "d3-format";
 
 interface DataProps {
   Date: number;
@@ -17,7 +18,7 @@ const Graph: React.FC<GraphProps> = ({
   currentlySelected,
   selectedEnergySource,
 }) => {
-  const uniqueDates = [...new Set(data.map((d) => Math.floor(d.Date)))];
+  const formatThousands = format(",");
   console.log(data);
   let maxTotalPower = Math.max(...data.map((d) => d.TotalPower));
   maxTotalPower = isFinite(maxTotalPower) ? maxTotalPower : 0;
@@ -25,24 +26,26 @@ const Graph: React.FC<GraphProps> = ({
 
   React.useEffect(() => {
     d3.select("#graph").selectAll("*").remove();
-    const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-      width = 460 - margin.left - margin.right,
+    const margin = { top: 10, right: 30, bottom: 30, left: 80 };
+    const width = window.innerWidth - margin.left - margin.right - 60,
       height = 400 - margin.top - margin.bottom;
 
     const svg = d3
       .select("#graph")
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
+      .attr("width", window.innerWidth - 60)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    const minYear = Math.min(...data.map((d) => d.Date));
+    const maxYear = Math.max(...data.map((d) => d.Date));
+
     const x = d3
       .scaleLinear()
-      .domain([
-        d3.min(data, (d) => d.Date) ?? 0,
-        d3.max(data, (d) => d.Date) ?? 0,
-      ])
+      .domain(
+        data.length > 1 ? [minYear ?? 0, maxYear + 1] : [minYear, maxYear]
+      )
       .range([0, width]);
 
     svg
@@ -56,15 +59,24 @@ const Graph: React.FC<GraphProps> = ({
       );
 
     const y = d3.scaleLinear().domain([0, maxTotalPower]).range([height, 0]);
-    svg.append("g").call(d3.axisLeft(y).tickFormat((d) => `${d} kW`));
+    svg
+      .append("g")
+      .call(d3.axisLeft(y).tickFormat((d) => `${formatThousands(d)} kW`));
+
+    const numYears = maxYear - minYear + 1;
+
+    const barWidth = data.length > 1 ? width / numYears : 50; // Set a minimum bar width for single data point
 
     svg
-      .append("path")
-      .datum(data.map((d) => [x(d.Date), y(d.TotalPower)])) // map data to array of tuples
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line());
+      .selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", (d) => x(d.Date)) // Adjust the x position
+      .attr("y", (d) => y(d.TotalPower))
+      .attr("width", barWidth)
+      .attr("height", (d) => height - y(d.TotalPower))
+      .attr("fill", "steelblue");
   }, [data]);
 
   return (
