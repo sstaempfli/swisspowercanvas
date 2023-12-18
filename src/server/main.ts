@@ -15,7 +15,7 @@ interface lineData {
   MainCategory: string;
   SubCategory: string;
   TotalPower: string;
-  Date:string;
+  Date:number;
 }
 
 // creates the expres app do not change
@@ -59,7 +59,7 @@ app.post("/graphData", async function (req, res) {
         }
       })
       .on("end", () => {
-        
+        sumArray.sort((a, b) => a.Date - b.Date);
         sumArray.forEach((i) => {
           output += `${i.Date},${i.TotalPower}\n`;
         })
