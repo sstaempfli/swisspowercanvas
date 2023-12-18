@@ -1,6 +1,7 @@
 import React from "react";
 import * as d3 from "d3";
 import { format } from "d3-format";
+import Tooltip from "./graphToolTip";
 
 interface DataProps {
   Date: number;
@@ -18,6 +19,12 @@ const Graph: React.FC<GraphProps> = ({
   currentlySelected,
   selectedEnergySource,
 }) => {
+  const [tooltip, setTooltip] = React.useState<{
+    power: number;
+    year: number;
+    x: number;
+    y: number;
+  }>({ power: 0, year: 0, x: 0, y: 0 });
   const formatThousands = format(",");
   console.log(data);
   let maxTotalPower = Math.max(...data.map((d) => d.TotalPower));
@@ -76,7 +83,26 @@ const Graph: React.FC<GraphProps> = ({
       .attr("y", (d) => y(d.TotalPower))
       .attr("width", barWidth)
       .attr("height", (d) => height - y(d.TotalPower))
-      .attr("fill", "steelblue");
+      .attr("fill", "steelblue")
+      .on("mouseover", function (event, d) {
+        setTooltip({
+          power: d.TotalPower,
+          year: d.Date,
+          x: event.clientX,
+          y: event.clientY,
+        });
+      })
+      .on("mousemove", function (event, d) {
+        setTooltip({
+          power: d.TotalPower,
+          year: d.Date,
+          x: event.clientX,
+          y: event.clientY,
+        });
+      })
+      .on("mouseout", function (_event, _d) {
+        setTooltip({ power: 0, year: 0, x: 0, y: 0 });
+      });
   }, [data]);
 
   return (
@@ -93,6 +119,12 @@ const Graph: React.FC<GraphProps> = ({
         the category {selectedEnergySource}
       </h3>
       <div id="graph" style={{ textAlign: "center" }} />
+      <Tooltip
+        power={tooltip.power}
+        year={tooltip.year}
+        x={tooltip.x}
+        y={tooltip.y}
+      />
     </div>
   );
 };
