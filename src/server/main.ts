@@ -40,7 +40,6 @@ app.get("/municipalities", async function (_req, res) {
 
 app.post("/graphData", async function (req, res) {
   const grpahData =  (req.body) as graphData;
-  console.log(grpahData)
   let path = "";
   if (grpahData.isCanton){
     path = "src/server/data/cantonsGraph.csv";
@@ -53,7 +52,7 @@ app.post("/graphData", async function (req, res) {
       let sumObject: { [date: string]: number } = {};
 
       fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
-        if ((row.ID == grpahData.id || row.ID == "-1") && (row.SubCategory == graphData.energySource || graphData.energySource == 'All')){     
+        if ((row.ID == grpahData.id || graphData.id == "-1") && (row.SubCategory == graphData.energySource || graphData.energySource == 'All')){    
           if (!sumObject[row.Date]) {
             sumObject[row.Date] = 0;
           }
