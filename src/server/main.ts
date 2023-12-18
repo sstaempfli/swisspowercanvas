@@ -40,39 +40,7 @@ app.get("/municipalities", async function (_req, res) {
 
 app.post("/graphData", async function (req, res) {
   const grpahData =  (req.body) as graphData;
-  function swissData(path:string, graphData:graphData){
-    return new Promise((resolve, reject) => {
-      let output = 'Date,TotalPower\n';
-      let sumArray = [] as lineData[]
 
-      fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
-        if (row.SubCategory == graphData.energySource){
-          sumArray.push(row);
-        }
-      })
-      .on("end", () => {
-        sumArray.sort((a, b) => a.Date - b.Date);
-        sumArray.forEach((i) => {
-          output += `${i.Date},${i.TotalPower}\n`;
-        })
-        console.log(output)
-        resolve(output);
-      })
-      .on('error', (error) => {
-        reject(error); // Reject the promise if there's an error during processing
-      });
-    })
-
-  }
-  if(grpahData.id  == "-1"){
-    swissData("src/server/data/cantonsGraph.csv",grpahData).then((result) => {
-      let a = result as string;
-      let json = papa.parse(a,{header: true, skipEmptyLines: true,});
-      res.status(200).json({ message: json });
-    })
-    return;  
-  }
-  console.log(grpahData);
   let path = "";
   if (grpahData.isCanton){
     path = "src/server/data/cantonsGraph.csv";
@@ -87,6 +55,8 @@ app.post("/graphData", async function (req, res) {
 
       fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
         if (row.ID == grpahData.id && row.SubCategory == graphData.energySource){
+          sumArray.push(row);
+        }else if (graphData.id == "-1"){
           sumArray.push(row);
         }
       })
