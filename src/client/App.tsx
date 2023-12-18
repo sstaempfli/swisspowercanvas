@@ -55,21 +55,28 @@ function App() {
   const [selectedEnergySource, setSelectedEnergySource] = useState("All");
   const [colors, setColors] = useState<Record<string, string>>({});
   const [energyData, setEnergyData] = useState<Record<string, string>>({});
-  const [graphData, setGraphData] = useState<GraphDataType[]>([]); // [
+  const [graphData, setGraphData] = useState<GraphDataType[]>([]); //
+  const [currentlySelected, setCurrentlySelected] =
+    useState<string>("Switzerland");
+  const [currentlySelectedID, setCurrentlySelectedID] = useState<number>(-1);
+  //
 
   const [minV, _setMinV] = useState(1);
   const [maxV, setMaxV] = useState(10000000);
 
   const handleViewChange = (view: "canton" | "municipality") => {
+    setCurrentlySelected("Switzerland");
+    setCurrentlySelectedID(-1);
     setCurrentView(view);
   };
 
-  /*const requestDataGraph = async (
-    id: string,
+  const requestDataGraph = async (
+    id: number,
     isCanton: boolean,
     energySource: string
   ) => {
     const sendData = { id, isCanton, energySource };
+    console.log(sendData);
     try {
       const response = await fetch("/graphData", {
         method: "POST",
@@ -87,7 +94,14 @@ function App() {
       console.error("Error sending parameters:", error);
     }
   };
-  */
+  useEffect(() => {
+    requestDataGraph(
+      currentlySelectedID,
+      currentView == "canton",
+      selectedEnergySource
+    );
+  }, [currentlySelectedID, currentView, selectedEnergySource]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -214,13 +228,18 @@ function App() {
         currentView={currentView}
         colors={colors}
         energyData={energyData}
-        setdata={setGraphData}
+        setCurrentlySelectedID={setCurrentlySelectedID}
+        setCurrentlySelected={setCurrentlySelected}
         selectedEnergySource={selectedEnergySource}
       />
 
       <ColorLegend min={minV} max={maxV} />
 
-      <Graph data={graphData} />
+      <Graph
+        data={graphData}
+        currentlySelected={currentlySelected}
+        selectedEnergySource={selectedEnergySource}
+      />
     </Layout>
   );
 }

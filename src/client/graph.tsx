@@ -8,9 +8,15 @@ interface DataProps {
 
 interface GraphProps {
   data: DataProps[];
+  currentlySelected: string;
+  selectedEnergySource: string;
 }
 
-const Graph: React.FC<GraphProps> = ({ data }) => {
+const Graph: React.FC<GraphProps> = ({
+  data,
+  currentlySelected,
+  selectedEnergySource,
+}) => {
   const uniqueDates = [...new Set(data.map((d) => Math.floor(d.Date)))];
   console.log(data);
   let maxTotalPower = Math.max(...data.map((d) => d.TotalPower));
@@ -61,7 +67,22 @@ const Graph: React.FC<GraphProps> = ({ data }) => {
       .attr("d", d3.line());
   }, [data]);
 
-  return <div id="graph" />;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <h3>
+        Timeline when new power plants were added in {currentlySelected} in the
+        category {selectedEnergySource}
+      </h3>
+      <div id="graph" style={{ textAlign: "center" }} />
+    </div>
+  );
 };
 
 export default Graph;

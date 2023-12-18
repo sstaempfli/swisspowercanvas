@@ -11,7 +11,8 @@ interface SwissMapProps extends Partial<ChartProps> {
   colors: Record<string, string>;
   energyData: Record<string, string>;
   selectedEnergySource: string;
-  setdata: React.Dispatch<React.SetStateAction<GraphDataType[]>>;
+  setCurrentlySelectedID: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentlySelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
 type cantonPropertiesType = {
@@ -39,8 +40,9 @@ const SwissMap: React.FC<SwissMapProps> = ({
   colors,
   currentView,
   energyData,
-  setdata,
   selectedEnergySource,
+  setCurrentlySelectedID,
+  setCurrentlySelected,
   width = defaultChartProps.width,
   height = defaultChartProps.height,
 }) => {
@@ -52,8 +54,9 @@ const SwissMap: React.FC<SwissMapProps> = ({
     y: number;
   }>({ name: null, power: null, x: 0, y: 0 });
 
+  /*
   const requestDataGraph = async (
-    id: string,
+    id: number,
     isCanton: boolean,
     energySource: string
   ) => {
@@ -76,6 +79,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
       console.error("Error sending parameters:", error);
     }
   };
+  */
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -108,7 +112,8 @@ const SwissMap: React.FC<SwissMapProps> = ({
         )
         .on("mousedown", function (_event, d) {
           // Execute requestDataGraph function
-          requestDataGraph(d.properties?.["id"], true, selectedEnergySource);
+          setCurrentlySelectedID((d.properties as cantonPropertiesType).id);
+          setCurrentlySelected(d.properties?.["name"]);
         })
         .on("mouseover", function (event, d) {
           // Set tooltip to municipality name
@@ -149,7 +154,10 @@ const SwissMap: React.FC<SwissMapProps> = ({
         )
         .on("mousedown", function (_event, d) {
           // Execute requestDataGraph function
-          requestDataGraph(d.properties?.["id"], false, selectedEnergySource);
+          setCurrentlySelectedID(
+            (d.properties as municipalitiesPropertiesType).id
+          );
+          setCurrentlySelected(d.properties?.["name"]);
         })
         .on("mouseover", function (event, d) {
           // Set tooltip to municipality name
