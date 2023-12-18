@@ -40,7 +40,6 @@ app.get("/municipalities", async function (_req, res) {
 
 app.post("/graphData", async function (req, res) {
   const grpahData =  (req.body) as graphData;
-
   let path = "";
   if (grpahData.isCanton){
     path = "src/server/data/cantonsGraph.csv";
@@ -51,20 +50,21 @@ app.post("/graphData", async function (req, res) {
   function processData(path:string, graphData:graphData){
     return new Promise((resolve, reject) => {
       let output = 'Date,TotalPower\n';
-      let sumArray = [] as lineData[]
+      let sumObject: { [date: string]: number } = {};
 
       fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
-        if (row.ID == grpahData.id && row.SubCategory == graphData.energySource){
-          sumArray.push(row);
-        }else if (graphData.id == "-1"){
-          sumArray.push(row);
+      if ((row.ID == grpahData.id || row.ID == "-1") && (row.SubCategory == graphData.energySource || row.SubCategory == "All")){
+          if (!sumObject[row.Date]) {
+            sumObject[row.Date] = 0;
+          }
+          sumObject[row.Date] += parseFloat(row.TotalPower);
         }
       })
       .on("end", () => {
-        sumArray.sort((a, b) => a.Date - b.Date);
-        sumArray.forEach((i) => {
-          output += `${i.Date},${i.TotalPower}\n`;
-        })
+        const sortedDates = Object.keys(sumObject).sort();
+        sortedDates.forEach((date) => {
+          output += `${date},${sumObject[date]}\n`;
+        });
         console.log(output)
         resolve(output);
       })
