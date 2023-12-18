@@ -40,20 +40,20 @@ app.get("/municipalities", async function (_req, res) {
 
 app.post("/graphData", async function (req, res) {
   const grpahData =  (req.body) as graphData;
+  console.log(grpahData)
   let path = "";
   if (grpahData.isCanton){
     path = "src/server/data/cantonsGraph.csv";
   }else{
     path = "src/server/data/municipalitiesGraph.csv"
   }
-
   function processData(path:string, graphData:graphData){
     return new Promise((resolve, reject) => {
       let output = 'Date,TotalPower\n';
       let sumObject: { [date: string]: number } = {};
 
       fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
-      if ((row.ID == grpahData.id || row.ID == "-1") && (row.SubCategory == graphData.energySource || row.SubCategory == "All")){
+        if ((row.ID == grpahData.id || row.ID == "-1") && (row.SubCategory == graphData.energySource || graphData.energySource == 'All')){     
           if (!sumObject[row.Date]) {
             sumObject[row.Date] = 0;
           }
