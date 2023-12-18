@@ -51,8 +51,8 @@ const Graph: React.FC<GraphProps> = ({
       .call(
         d3
           .axisBottom(x)
+          .ticks(10) // Adjust this number to change the number of ticks
           .tickFormat((d) => d.toString())
-          .tickValues(uniqueDates)
       );
 
     const y = d3.scaleLinear().domain([0, maxTotalPower]).range([height, 0]);
