@@ -147,6 +147,10 @@ const SwissMap: React.FC<SwissMapProps> = ({
           (c) =>
             colors[(c.properties as municipalitiesPropertiesType).id] || "white"
         )
+        .on("mousedown", function (_event, d) {
+          // Execute requestDataGraph function
+          requestDataGraph(d.properties?.["id"], false, selectedEnergySource);
+        })
         .on("mouseover", function (event, d) {
           // Set tooltip to municipality name
           setTooltip({
