@@ -89,8 +89,8 @@ const Graph: React.FC<GraphProps> = ({
       }}
     >
       <h3>
-        Timeline when new power plants were added in {currentlySelected} in the
-        category {selectedEnergySource}
+        Timeline when new power plants were installed in {currentlySelected} in
+        the category {selectedEnergySource}
       </h3>
       <div id="graph" style={{ textAlign: "center" }} />
     </div>
