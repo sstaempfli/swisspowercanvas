@@ -10,6 +10,7 @@ interface SwissMapProps extends Partial<ChartProps> {
   currentView: "canton" | "municipality";
   colors: Record<string, string>;
   energyData: Record<string, string>;
+  selectedEnergySource: string;
   setdata: React.Dispatch<React.SetStateAction<GraphDataType[]>>;
 }
 
@@ -39,6 +40,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
   currentView,
   energyData,
   setdata,
+  selectedEnergySource,
   width = defaultChartProps.width,
   height = defaultChartProps.height,
 }) => {
@@ -56,6 +58,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
     energySource: string
   ) => {
     const sendData = { id, isCanton, energySource };
+    console.log(sendData);
     try {
       const response = await fetch("/graphData", {
         method: "POST",
@@ -105,7 +108,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
         )
         .on("mousedown", function (_event, d) {
           // Execute requestDataGraph function
-          requestDataGraph(d.properties?.["id"], true, "Photovoltaic");
+          requestDataGraph(d.properties?.["id"], true, selectedEnergySource);
         })
         .on("mouseover", function (event, d) {
           // Set tooltip to municipality name

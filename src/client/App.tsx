@@ -215,6 +215,7 @@ function App() {
         colors={colors}
         energyData={energyData}
         setdata={setGraphData}
+        selectedEnergySource={selectedEnergySource}
       />
 
       <ColorLegend min={minV} max={maxV} />
