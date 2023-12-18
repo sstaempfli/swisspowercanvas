@@ -21,10 +21,6 @@ type cantonPropertiesType = {
   fill: string;
   stroke: string;
 };
-type GraphDataType = {
-  Date: number;
-  TotalPower: number;
-};
 
 type municipalitiesPropertiesType = {
   id: number;
@@ -40,7 +36,6 @@ const SwissMap: React.FC<SwissMapProps> = ({
   colors,
   currentView,
   energyData,
-  selectedEnergySource,
   setCurrentlySelectedID,
   setCurrentlySelected,
   width = defaultChartProps.width,
@@ -53,33 +48,6 @@ const SwissMap: React.FC<SwissMapProps> = ({
     x: number;
     y: number;
   }>({ name: null, power: null, x: 0, y: 0 });
-
-  /*
-  const requestDataGraph = async (
-    id: number,
-    isCanton: boolean,
-    energySource: string
-  ) => {
-    const sendData = { id, isCanton, energySource };
-    console.log(sendData);
-    try {
-      const response = await fetch("/graphData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(sendData),
-      });
-
-      const graphDataIn = (await response.json()).message
-        .data as GraphDataType[];
-      setdata(graphDataIn);
-      console.log(graphDataIn);
-    } catch (error) {
-      console.error("Error sending parameters:", error);
-    }
-  };
-  */
 
   useEffect(() => {
     if (!svgRef.current) return;
