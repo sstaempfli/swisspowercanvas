@@ -65,7 +65,6 @@ app.post("/graphData", async function (req, res) {
         sortedDates.forEach((date) => {
           output += `${date},${sumObject[date]}\n`;
         });
-        console.log(output)
         resolve(output);
       })
       .on('error', (error) => {
