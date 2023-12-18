@@ -2,8 +2,8 @@ import React from "react";
 import * as d3 from "d3";
 
 interface DataProps {
-  year: number;
-  value: number;
+  Date: number;
+  TotalPower: number;
 }
 
 interface GraphProps {
@@ -11,7 +11,12 @@ interface GraphProps {
 }
 
 const Graph: React.FC<GraphProps> = ({ data }) => {
-  const uniqueYears = [...new Set(data.map((d) => Math.floor(d.year)))];
+  const uniqueDates = [...new Set(data.map((d) => Math.floor(d.Date)))];
+  console.log(data);
+  let maxTotalPower = Math.max(...data.map((d) => d.TotalPower));
+  maxTotalPower = isFinite(maxTotalPower) ? maxTotalPower : 0;
+  console.log("Max Total Power:", maxTotalPower);
+
   React.useEffect(() => {
     d3.select("#graph").selectAll("*").remove();
     const margin = { top: 10, right: 30, bottom: 30, left: 60 },
@@ -29,8 +34,8 @@ const Graph: React.FC<GraphProps> = ({ data }) => {
     const x = d3
       .scaleLinear()
       .domain([
-        d3.min(data, (d) => d.year) ?? 0,
-        d3.max(data, (d) => d.year) ?? 0,
+        d3.min(data, (d) => d.Date) ?? 0,
+        d3.max(data, (d) => d.Date) ?? 0,
       ])
       .range([0, width]);
 
@@ -41,18 +46,15 @@ const Graph: React.FC<GraphProps> = ({ data }) => {
         d3
           .axisBottom(x)
           .tickFormat((d) => d.toString())
-          .tickValues(uniqueYears)
+          .tickValues(uniqueDates)
       );
 
-    const y = d3
-      .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value) ?? 0])
-      .range([height, 0]);
+    const y = d3.scaleLinear().domain([0, maxTotalPower]).range([height, 0]);
     svg.append("g").call(d3.axisLeft(y).tickFormat((d) => `${d} kW`));
 
     svg
       .append("path")
-      .datum(data.map((d) => [x(d.year), y(d.value)])) // map data to array of tuples
+      .datum(data.map((d) => [x(d.Date), y(d.TotalPower)])) // map data to array of tuples
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)

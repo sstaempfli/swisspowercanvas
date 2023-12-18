@@ -10,6 +10,7 @@ interface SwissMapProps extends Partial<ChartProps> {
   currentView: "canton" | "municipality";
   colors: Record<string, string>;
   energyData: Record<string, string>;
+  setdata: React.Dispatch<React.SetStateAction<GraphDataType[]>>;
 }
 
 type cantonPropertiesType = {
@@ -17,6 +18,10 @@ type cantonPropertiesType = {
   name: string;
   fill: string;
   stroke: string;
+};
+type GraphDataType = {
+  Date: number;
+  TotalPower: number;
 };
 
 type municipalitiesPropertiesType = {
@@ -33,6 +38,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
   colors,
   currentView,
   energyData,
+  setdata,
   width = defaultChartProps.width,
   height = defaultChartProps.height,
 }) => {
@@ -43,6 +49,30 @@ const SwissMap: React.FC<SwissMapProps> = ({
     x: number;
     y: number;
   }>({ name: null, power: null, x: 0, y: 0 });
+
+  const requestDataGraph = async (
+    id: string,
+    isCanton: boolean,
+    energySource: string
+  ) => {
+    const sendData = { id, isCanton, energySource };
+    try {
+      const response = await fetch("/graphData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(sendData),
+      });
+
+      const graphDataIn = (await response.json()).message
+        .data as GraphDataType[];
+      setdata(graphDataIn);
+      console.log(graphDataIn);
+    } catch (error) {
+      console.error("Error sending parameters:", error);
+    }
+  };
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -73,6 +103,10 @@ const SwissMap: React.FC<SwissMapProps> = ({
           "fill",
           (c) => colors[(c.properties as cantonPropertiesType).id] || "white"
         )
+        .on("mousedown", function (_event, d) {
+          // Execute requestDataGraph function
+          requestDataGraph(d.properties?.["id"], true, "Photovoltaic");
+        })
         .on("mouseover", function (event, d) {
           // Set tooltip to municipality name
           setTooltip({
@@ -94,7 +128,9 @@ const SwissMap: React.FC<SwissMapProps> = ({
         .on("mouseout", function (_event, _d) {
           // Hide tooltip
           setTooltip({ name: null, power: null, x: 0, y: 0 });
-        }); // use the color associated with the canton ID or a default color
+        });
+
+      // use the color associated with the canton ID or a default color
     } else if (currentView === "municipality" && municipalities) {
       svg.select("#cantons").selectAll("path").remove(); // Clear cantons
       svg

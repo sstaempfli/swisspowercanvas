@@ -4,7 +4,7 @@ import Layout from "./Layout";
 import SwissMap from "./SwissMap";
 import { useSwissAtlas } from "./state/hooks";
 import { interpolateViridis } from "d3";
-import { scaleLinear, scaleLog, scaleSequential } from "d3-scale";
+import { scaleLog, scaleSequential } from "d3-scale";
 import ColorLegend from "./colorlegend";
 import Graph from "./graph";
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
@@ -43,8 +43,8 @@ type DataType = {
 };
 
 type GraphDataType = {
-  Date:string;
-  TotalPower: string;
+  Date: number;
+  TotalPower: number;
 };
 
 function App() {
@@ -55,6 +55,7 @@ function App() {
   const [selectedEnergySource, setSelectedEnergySource] = useState("All");
   const [colors, setColors] = useState<Record<string, string>>({});
   const [energyData, setEnergyData] = useState<Record<string, string>>({});
+  const [graphData, setGraphData] = useState<GraphDataType[]>([]); // [
 
   const [minV, _setMinV] = useState(1);
   const [maxV, setMaxV] = useState(10000000);
@@ -63,8 +64,12 @@ function App() {
     setCurrentView(view);
   };
 
-  const requestDataGraph = async () =>{
-    const sendData = {id:"2",isCanton:false,energySource:"Photovoltaic"};
+  /*const requestDataGraph = async (
+    id: string,
+    isCanton: boolean,
+    energySource: string
+  ) => {
+    const sendData = { id, isCanton, energySource };
     try {
       const response = await fetch("/graphData", {
         method: "POST",
@@ -74,13 +79,15 @@ function App() {
         body: JSON.stringify(sendData),
       });
 
-      const graphData = (await response.json()).message.data as GraphDataType;
-      console.log(graphData);
+      const graphDataIn = (await response.json()).message
+        .data as GraphDataType[];
+      setGraphData(graphDataIn);
+      console.log(graphDataIn);
     } catch (error) {
-      console.error('Error sending parameters:', error);
+      console.error("Error sending parameters:", error);
     }
-  }
-
+  };
+  */
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -207,23 +214,12 @@ function App() {
         currentView={currentView}
         colors={colors}
         energyData={energyData}
+        setdata={setGraphData}
       />
 
       <ColorLegend min={minV} max={maxV} />
 
-      <Graph
-        data={[
-          { year: 2017, value: 100 },
-          { year: 2018, value: 20 },
-          { year: 2019, value: 30 },
-          { year: 2020, value: 20 },
-          { year: 2021, value: 100 },
-          { year: 2022, value: 0 },
-          { year: 2023, value: 10 },
-          { year: 2024, value: 260 },
-          { year: 2025, value: 400.2 },
-        ]}
-      />
+      <Graph data={graphData} />
     </Layout>
   );
 }
