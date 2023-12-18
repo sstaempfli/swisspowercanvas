@@ -39,9 +39,9 @@ app.get("/municipalities", async function (_req, res) {
 });
 
 app.post("/graphData", async function (req, res) {
-  const grpahData =  (req.body) as graphData;
+  const graphData =  (req.body) as graphData;
   let path = "";
-  if (grpahData.isCanton){
+  if (graphData.isCanton){
     path = "src/server/data/cantonsGraph.csv";
   }else{
     path = "src/server/data/municipalitiesGraph.csv"
@@ -52,7 +52,7 @@ app.post("/graphData", async function (req, res) {
       let sumObject: { [date: string]: number } = {};
 
       fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
-        if ((row.ID == grpahData.id || graphData.id == "-1") && (row.SubCategory == graphData.energySource || graphData.energySource == 'All')){    
+        if ((row.ID == graphData.id || graphData.id == "-1") && (row.SubCategory == graphData.energySource || graphData.energySource == 'All')){    
           if (!sumObject[row.Date]) {
             sumObject[row.Date] = 0;
           }
@@ -72,7 +72,7 @@ app.post("/graphData", async function (req, res) {
     })
 
   }
-  processData(path,grpahData).then((result) => {
+  processData(path,graphData).then((result) => {
   let a = result as string;
   let json = papa.parse(a,{header: true, skipEmptyLines: true,});
   res.status(200).json({ message: json });
