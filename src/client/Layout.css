@@ -1,6 +1,10 @@
 body h1{
   font-size: 25px;
 }
+body h3 {
+  font-size: 25px;
+  font-weight: normal;
+}
 
 body h1,
 body h2 {

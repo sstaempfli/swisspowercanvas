@@ -1,7 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { ChartProps, defaultChartProps } from "./types/chart";
-import Tooltip from "./tooltip";
+import  Tooltip from "./tooltip";
+
+const formatPower = (power: string | undefined) => {
+  if (power === undefined) return "0";
+
+  // Convert to number, round it, and then format with commas
+  const roundedPower = Math.round(Number(power));
+  return roundedPower.toLocaleString('en-US');
+};
 
 interface SwissMapProps extends Partial<ChartProps> {
   state: GeoJSON.FeatureCollection;
@@ -96,19 +104,20 @@ const SwissMap: React.FC<SwissMapProps> = ({
           element.parentNode!.appendChild(element);
 
           d3.select(element).classed("hover-highlight", true);
-
+          const formattedPower = formatPower(energyData[d.properties?.["name"]]);
           setTooltip({
             name: `Canton: ${d.properties?.["name"]}`,
-            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${formattedPower} kW`,
             x: event.clientX,
             y: event.clientY,
           });
         })
         .on("mousemove", function (event, d) {
           // Update tooltip position
+          const formattedPower = formatPower(energyData[d.properties?.["name"]]);
           setTooltip({
             name: `Canton: ${d.properties?.["name"]}`,
-            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
+            power:`Power: ${formattedPower} kW`,
             x: event.clientX,
             y: event.clientY,
           });
@@ -147,18 +156,20 @@ const SwissMap: React.FC<SwissMapProps> = ({
           element.parentNode!.appendChild(element);
 
           d3.select(element).classed("hover-highlight", true);
+          const formattedPower = formatPower(energyData[d.properties?.["name"]]);
           setTooltip({
             name: `Municipality: ${d.properties?.["name"]}`,
-            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${formattedPower} kW`,
             x: event.clientX,
             y: event.clientY,
           });
         })
         .on("mousemove", function (event, d) {
           // Update tooltip position
+          const formattedPower = formatPower(energyData[d.properties?.["name"]]);
           setTooltip({
             name: `Municipality: ${d.properties?.["name"]}`,
-            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${formattedPower} kW`,
             x: event.clientX,
             y: event.clientY,
           });
