@@ -76,7 +76,7 @@ function App() {
     energySource: string
   ) => {
     const sendData = { id, isCanton, energySource };
-    console.log(sendData);
+    //console.log(sendData);
     try {
       const response = await fetch("/graphData", {
         method: "POST",
@@ -89,7 +89,7 @@ function App() {
       const graphDataIn = (await response.json()).message
         .data as GraphDataType[];
       setGraphData(graphDataIn);
-      console.log(graphDataIn);
+      //console.log(graphDataIn);
     } catch (error) {
       console.error("Error sending parameters:", error);
     }

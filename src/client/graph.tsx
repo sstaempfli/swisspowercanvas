@@ -26,10 +26,10 @@ const Graph: React.FC<GraphProps> = ({
     y: number;
   }>({ power: 0, year: 0, x: 0, y: 0 });
   const formatThousands = format(",");
-  console.log(data);
+  //console.log(data);
   let maxTotalPower = Math.max(...data.map((d) => d.TotalPower));
   maxTotalPower = isFinite(maxTotalPower) ? maxTotalPower : 0;
-  console.log("Max Total Power:", maxTotalPower);
+  //console.log("Max Total Power:", maxTotalPower);
 
   React.useEffect(() => {
     d3.select("#graph").selectAll("*").remove();
