@@ -25,7 +25,7 @@ const Tooltip: React.FC<TooltipProps> = ({ name, power, x, y }) => {
       }}
     >
       <div>{name}</div>
-      <div>{power}</div>
+      <div>{power}</div> 
     </div>
   );
 };
