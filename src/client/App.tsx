@@ -46,6 +46,7 @@ type GraphDataType = {
   Date: number;
   TotalPower: number;
 };
+const allEnergySources = ["All", "Renewable Energy", ...energySources];
 
 function App() {
   const { state, cantons, municipalities } = useSwissAtlas();
@@ -59,7 +60,11 @@ function App() {
   const [currentlySelected, setCurrentlySelected] =
     useState<string>("Switzerland");
   const [currentlySelectedID, setCurrentlySelectedID] = useState<number>(-1);
-  //
+ // const renewableEnergySources = ["Hydroelectric power", "Photovoltaic", "Wind energy", "Biomass", "Geothermal energy"];
+  const renewableEnergyCategories = ["Hydroelectric power", "Other renewable energies"];
+ // const [renewableSourcesPresent, setRenewableSourcesPresent] = useState<Set<string>>(new Set());
+
+
 
   const [minV, _setMinV] = useState(1);
   const [maxV, setMaxV] = useState(10000000);
@@ -111,10 +116,18 @@ function App() {
         const data = (await response.json()).message.data as DataType[];
 
         const filteredData =
-          selectedEnergySource === "All"
-            ? data
-            : data.filter((d) => d.SubCategory === selectedEnergySource);
-
+        selectedEnergySource === "All"
+          ? data
+          : data.filter((d) => {
+              if (selectedEnergySource === "Renewable Energy") {
+                return renewableEnergyCategories.includes(d.MainCategory);
+              } else {
+                return d.SubCategory === selectedEnergySource;
+              }
+            });
+            
+           
+          
         const powerVal = filteredData.map((k) =>
           filteredData
             .filter((k2) => k.ID == k2.ID)
@@ -168,7 +181,6 @@ function App() {
                 d.ID ==
                 (municipality.properties as municipalityPropertiesType).id
             );
-
             var power = 0;
             municipalityData.forEach(
               (k) => (power += parseFloat(k.TotalPower))
@@ -205,6 +217,7 @@ function App() {
     fetchData(); // Call the async function to fetch and process data
   }, [currentView, selectedEnergySource]); // Add necessary dependencies
 
+
   return (
     <Layout>
       <div>
@@ -213,8 +226,7 @@ function App() {
           Municipalities
         </button>
         <select onChange={(e) => setSelectedEnergySource(e.target.value)}>
-          <option value="All">All Energy Sources</option>
-          {energySources.map((source) => (
+          {allEnergySources.map((source) => (
             <option key={source} value={source}>
               {source}
             </option>

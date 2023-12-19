@@ -52,7 +52,8 @@ app.post("/graphData", async function (req, res) {
       let sumObject: { [date: string]: number } = {};
 
       fs.createReadStream(path).pipe(csv()).on('data', (row: lineData) => {
-        if ((row.ID == graphData.id || graphData.id == "-1") && (row.SubCategory == graphData.energySource || graphData.energySource == 'All')){    
+        if ((row.ID == graphData.id || graphData.id == "-1") && 
+        (row.SubCategory == graphData.energySource || graphData.energySource == 'All' || (graphData.energySource == "Renewable Energy" && row.SubCategory != "Waste" && row.SubCategory != "Coal" && row.SubCategory != "Natural gas" && row.SubCategory != "Crude oil" && row.SubCategory != "Nuclear energy"))){    
           if (!sumObject[row.Date]) {
             sumObject[row.Date] = 0;
           }
