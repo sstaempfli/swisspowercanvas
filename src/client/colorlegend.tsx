@@ -24,22 +24,37 @@ const ColorLegend: React.FC<ColorLegendProps> = ({ min, max }) => {
 
 
   return (
-    <svg width="300" height="80">
-      <text x="0" y="40">
+    <svg width="300" height="200">
+       <rect
+          x="0"
+          y="10"
+          height="20"
+          width="20"
+          fill="grey"
+        />
+      <text x="0" y="50">
+        0 kW
+      </text>
+       <text x="0" y="90">
+        Log Scale
+      </text>
+      <text x="0" y="140">
         {minText}
       </text>
-      <text x="300" y="40" textAnchor="end">
+      <text x="300" y="140" textAnchor="end">
         {maxText}
       </text>
       {[...Array(300).keys()].map((value) => (
         <rect
           key={value}
           x={value * 3}
+          y= "100"
           height="20"
           width="4"
           fill={colorScale(value / 100)}
         />
       ))}
+      
     </svg>
   );
 };

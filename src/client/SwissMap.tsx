@@ -48,14 +48,21 @@ const SwissMap: React.FC<SwissMapProps> = ({
     x: number;
     y: number;
   }>({ name: null, power: null, x: 0, y: 0 });
-
+ 
   useEffect(() => {
     if (!svgRef.current) return;
 
     const svg = d3.select(svgRef.current);
     const projection = d3.geoMercator().fitSize([width, height], state);
     const path = d3.geoPath().projection(projection);
+    const zoom = d3.zoom()
+    .scaleExtent([1, 5]) // Adjust scale extent as needed
+    .on("zoom", (event) => {
+      svg.selectAll('g').attr("transform", event.transform);
+    });
 
+  svg.call(zoom);
+  
     svg
       .select("#state")
       .selectAll("path")
@@ -64,6 +71,7 @@ const SwissMap: React.FC<SwissMapProps> = ({
       .attr("class", "state")
       .attr("d", path)
       .style("fill", "#0000FF");
+
 
     // Depending on the current view, clear and render the appropriate paths
     if (currentView === "canton" && cantons) {
@@ -84,7 +92,12 @@ const SwissMap: React.FC<SwissMapProps> = ({
           setCurrentlySelected(d.properties?.["name"]);
         })
         .on("mouseover", function (event, d) {
-          // Set tooltip to municipality name
+          const element = this as Element;
+  element.parentNode!.appendChild(element);
+
+  d3.select(element)
+    .classed('hover-highlight', true);
+          
           setTooltip({
             name: `Canton: ${d.properties?.["name"]}`,
             power: `Power: ${energyData[d.properties?.["name"]]} kW`,
@@ -102,6 +115,8 @@ const SwissMap: React.FC<SwissMapProps> = ({
           });
         })
         .on("mouseout", function (_event, _d) {
+          const element = this as Element;
+  d3.select(element).classed('hover-highlight', false);
           // Hide tooltip
           setTooltip({ name: null, power: null, x: 0, y: 0 });
         });
@@ -129,6 +144,11 @@ const SwissMap: React.FC<SwissMapProps> = ({
         })
         .on("mouseover", function (event, d) {
           // Set tooltip to municipality name
+          const element = this as Element;
+  element.parentNode!.appendChild(element);
+
+  d3.select(element)
+    .classed('hover-highlight', true);
           setTooltip({
             name: `Municipality: ${d.properties?.["name"]}`,
             power: `Power: ${energyData[d.properties?.["name"]]} kW`,
@@ -146,6 +166,8 @@ const SwissMap: React.FC<SwissMapProps> = ({
           });
         })
         .on("mouseout", function (_event, _d) {
+          const element = this as Element;
+          d3.select(element).classed('hover-highlight', false);
           // Hide tooltip
           setTooltip({ name: null, power: null, x: 0, y: 0 });
         }); // use the color associated with the Municipality ID or a default color
@@ -155,6 +177,19 @@ const SwissMap: React.FC<SwissMapProps> = ({
   return (
     <div>
       <svg ref={svgRef} id="SwissMap" width={width} height={height}>
+      <defs>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+            <feOffset dx="2" dy="2" result="offsetblur" />
+            <feComponentTransfer>
+              <feFuncA type="linear" slope="0.5" />
+            </feComponentTransfer>
+            <feMerge>
+              <feMergeNode />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
         <g id="state"></g>
         <g id="cantons"></g>
         <g id="municipalities"></g>
