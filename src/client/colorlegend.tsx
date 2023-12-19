@@ -19,7 +19,7 @@ const ColorLegend: React.FC<ColorLegendProps> = ({ min, max }) => {
 
   //see when max changes
   useEffect(() => {
-    console.log(`Max value changed: ${max}`);
+    //console.log(`Max value changed: ${max}`);
   }, [max]);
 
 
