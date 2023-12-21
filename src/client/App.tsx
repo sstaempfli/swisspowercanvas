@@ -7,6 +7,7 @@ import { interpolateViridis } from "d3";
 import { scaleLog, scaleSequential } from "d3-scale";
 import ColorLegend from "./colorlegend";
 import Graph from "./graph";
+import Info from "./Info";
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
 const energySources = [
@@ -74,6 +75,12 @@ function App() {
     setCurrentlySelectedID(-1);
     setCurrentView(view);
   };
+
+  const [isInfoVisible, setInfoVisible] = useState(false);
+
+  const handleButtonClick = () => {
+    setInfoVisible(!isInfoVisible);
+  }  
 
   const requestDataGraph = async (
     id: number,
@@ -252,6 +259,10 @@ function App() {
         currentlySelected={currentlySelected}
         selectedEnergySource={selectedEnergySource}
       />
+      <button id="infoButton" className={isInfoVisible ? 'white' : 'grey'} onClick={handleButtonClick}>Additional Info</button>
+      <div id="Info" className={isInfoVisible ? 'active' : ''}>
+        {isInfoVisible && <Info/>}
+      </div>
     </Layout>
   );
 }

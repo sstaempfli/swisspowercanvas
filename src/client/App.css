@@ -36,5 +36,39 @@ button:focus {
 
 }
 
+#Info {
+  position: absolute;
+  top: 100%; /* Position it below the info button */
+  left: 0; 
+  width: 100%; 
+  background-color: transparent; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  display: none; 
+}
+
+#Info.active {
+  display: block; /* Show when the 'active' class is present */
+}
+
+#infoButton{
+  background-color: transparent; 
+  width: 8rem;
+  font-size: smaller;
+  border-width: 1px;
+}
+
+
+.grey {
+  border-color: #9ba5b3;
+  color: #9ba5b3;
+  
+}
+
+
+.white {
+  border-color: white; 
+  color: white;
+}
+
 
 
