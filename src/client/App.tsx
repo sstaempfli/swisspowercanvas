@@ -4,8 +4,9 @@ import Layout from "./Layout";
 import SwissMap from "./SwissMap";
 import { useSwissAtlas } from "./state/hooks";
 import { interpolateViridis } from "d3";
-import { scaleLinear, scaleLog, scaleSequential } from "d3-scale";
+import { scaleLog, scaleSequential } from "d3-scale";
 import ColorLegend from "./colorlegend";
+import Graph from "./graph";
 //import { scaleQuantize, scaleQuantile } from 'd3-scale';
 
 const energySources = [
@@ -41,6 +42,12 @@ type DataType = {
   TotalPower: string;
 };
 
+type GraphDataType = {
+  Date: number;
+  TotalPower: number;
+};
+const allEnergySources = ["All", "Renewable Energy", ...energySources];
+
 function App() {
   const { state, cantons, municipalities } = useSwissAtlas();
   const [currentView, setCurrentView] = useState<"canton" | "municipality">(
@@ -49,13 +56,56 @@ function App() {
   const [selectedEnergySource, setSelectedEnergySource] = useState("All");
   const [colors, setColors] = useState<Record<string, string>>({});
   const [energyData, setEnergyData] = useState<Record<string, string>>({});
+  const [graphData, setGraphData] = useState<GraphDataType[]>([]); //
+  const [currentlySelected, setCurrentlySelected] =
+    useState<string>("Switzerland");
+  const [currentlySelectedID, setCurrentlySelectedID] = useState<number>(-1);
+ // const renewableEnergySources = ["Hydroelectric power", "Photovoltaic", "Wind energy", "Biomass", "Geothermal energy"];
+  const renewableEnergyCategories = ["Hydroelectric power", "Other renewable energies"];
+ // const [renewableSourcesPresent, setRenewableSourcesPresent] = useState<Set<string>>(new Set());
+
+
 
   const [minV, _setMinV] = useState(1);
   const [maxV, setMaxV] = useState(10000000);
 
   const handleViewChange = (view: "canton" | "municipality") => {
+    setCurrentlySelected("Switzerland");
+    setCurrentlySelectedID(-1);
     setCurrentView(view);
   };
+
+  const requestDataGraph = async (
+    id: number,
+    isCanton: boolean,
+    energySource: string
+  ) => {
+    const sendData = { id, isCanton, energySource };
+    //console.log(sendData);
+    try {
+      const response = await fetch("/graphData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(sendData),
+      });
+
+      const graphDataIn = (await response.json()).message
+        .data as GraphDataType[];
+      setGraphData(graphDataIn);
+      //console.log(graphDataIn);
+    } catch (error) {
+      console.error("Error sending parameters:", error);
+    }
+  };
+  useEffect(() => {
+    requestDataGraph(
+      currentlySelectedID,
+      currentView == "canton",
+      selectedEnergySource
+    );
+  }, [currentlySelectedID, currentView, selectedEnergySource]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,10 +116,18 @@ function App() {
         const data = (await response.json()).message.data as DataType[];
 
         const filteredData =
-          selectedEnergySource === "All"
-            ? data
-            : data.filter((d) => d.SubCategory === selectedEnergySource);
-
+        selectedEnergySource === "All"
+          ? data
+          : data.filter((d) => {
+              if (selectedEnergySource === "Renewable Energy") {
+                return renewableEnergyCategories.includes(d.MainCategory);
+              } else {
+                return d.SubCategory === selectedEnergySource;
+              }
+            });
+            
+           
+          
         const powerVal = filteredData.map((k) =>
           filteredData
             .filter((k2) => k.ID == k2.ID)
@@ -123,7 +181,6 @@ function App() {
                 d.ID ==
                 (municipality.properties as municipalityPropertiesType).id
             );
-
             var power = 0;
             municipalityData.forEach(
               (k) => (power += parseFloat(k.TotalPower))
@@ -160,6 +217,7 @@ function App() {
     fetchData(); // Call the async function to fetch and process data
   }, [currentView, selectedEnergySource]); // Add necessary dependencies
 
+
   return (
     <Layout>
       <div>
@@ -168,8 +226,7 @@ function App() {
           Municipalities
         </button>
         <select onChange={(e) => setSelectedEnergySource(e.target.value)}>
-          <option value="All">All Energy Sources</option>
-          {energySources.map((source) => (
+          {allEnergySources.map((source) => (
             <option key={source} value={source}>
               {source}
             </option>
@@ -183,8 +240,18 @@ function App() {
         currentView={currentView}
         colors={colors}
         energyData={energyData}
+        setCurrentlySelectedID={setCurrentlySelectedID}
+        setCurrentlySelected={setCurrentlySelected}
+        selectedEnergySource={selectedEnergySource}
       />
+
       <ColorLegend min={minV} max={maxV} />
+
+      <Graph
+        data={graphData}
+        currentlySelected={currentlySelected}
+        selectedEnergySource={selectedEnergySource}
+      />
     </Layout>
   );
 }

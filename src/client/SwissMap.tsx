@@ -1,7 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { ChartProps, defaultChartProps } from "./types/chart";
-import Tooltip from "./tooltip";
+import  Tooltip from "./tooltip";
+
+const formatPower = (power: string | undefined) => {
+  if (power === undefined) return "0";
+
+  // Convert to number, round it, and then format with commas
+  const roundedPower = Math.round(Number(power));
+  return roundedPower.toLocaleString('en-US');
+};
 
 interface SwissMapProps extends Partial<ChartProps> {
   state: GeoJSON.FeatureCollection;
@@ -10,6 +18,9 @@ interface SwissMapProps extends Partial<ChartProps> {
   currentView: "canton" | "municipality";
   colors: Record<string, string>;
   energyData: Record<string, string>;
+  selectedEnergySource: string;
+  setCurrentlySelectedID: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentlySelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
 type cantonPropertiesType = {
@@ -33,6 +44,8 @@ const SwissMap: React.FC<SwissMapProps> = ({
   colors,
   currentView,
   energyData,
+  setCurrentlySelectedID,
+  setCurrentlySelected,
   width = defaultChartProps.width,
   height = defaultChartProps.height,
 }) => {
@@ -50,6 +63,14 @@ const SwissMap: React.FC<SwissMapProps> = ({
     const svg = d3.select(svgRef.current);
     const projection = d3.geoMercator().fitSize([width, height], state);
     const path = d3.geoPath().projection(projection);
+    const zoom = d3
+      .zoom()
+      .scaleExtent([1, 5]) // Adjust scale extent as needed
+      .on("zoom", (event) => {
+        svg.selectAll("g").attr("transform", event.transform);
+      });
+
+    (svg as any).call(zoom);
 
     svg
       .select("#state")
@@ -73,28 +94,42 @@ const SwissMap: React.FC<SwissMapProps> = ({
           "fill",
           (c) => colors[(c.properties as cantonPropertiesType).id] || "white"
         )
+        .on("mousedown", function (_event, d) {
+          // Execute requestDataGraph function
+          setCurrentlySelectedID((d.properties as cantonPropertiesType).id);
+          setCurrentlySelected(d.properties?.["name"]);
+        })
         .on("mouseover", function (event, d) {
-          // Set tooltip to municipality name
+          const element = this as Element;
+          element.parentNode!.appendChild(element);
+
+          d3.select(element).classed("hover-highlight", true);
+          const formattedPower = formatPower(energyData[d.properties?.["name"]]);
           setTooltip({
             name: `Canton: ${d.properties?.["name"]}`,
-            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${formattedPower} kW`,
             x: event.clientX,
             y: event.clientY,
           });
         })
         .on("mousemove", function (event, d) {
           // Update tooltip position
+          const formattedPower = formatPower(energyData[d.properties?.["name"]]);
           setTooltip({
             name: `Canton: ${d.properties?.["name"]}`,
-            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
+            power:`Power: ${formattedPower} kW`,
             x: event.clientX,
             y: event.clientY,
           });
         })
         .on("mouseout", function (_event, _d) {
+          const element = this as Element;
+          d3.select(element).classed("hover-highlight", false);
           // Hide tooltip
           setTooltip({ name: null, power: null, x: 0, y: 0 });
-        }); // use the color associated with the canton ID or a default color
+        });
+
+      // use the color associated with the canton ID or a default color
     } else if (currentView === "municipality" && municipalities) {
       svg.select("#cantons").selectAll("path").remove(); // Clear cantons
       svg
@@ -108,25 +143,40 @@ const SwissMap: React.FC<SwissMapProps> = ({
           (c) =>
             colors[(c.properties as municipalitiesPropertiesType).id] || "white"
         )
+        .on("mousedown", function (_event, d) {
+          // Execute requestDataGraph function
+          setCurrentlySelectedID(
+            (d.properties as municipalitiesPropertiesType).id
+          );
+          setCurrentlySelected(d.properties?.["name"]);
+        })
         .on("mouseover", function (event, d) {
           // Set tooltip to municipality name
+          const element = this as Element;
+          element.parentNode!.appendChild(element);
+
+          d3.select(element).classed("hover-highlight", true);
+          const formattedPower = formatPower(energyData[d.properties?.["name"]]);
           setTooltip({
             name: `Municipality: ${d.properties?.["name"]}`,
-            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${formattedPower} kW`,
             x: event.clientX,
             y: event.clientY,
           });
         })
         .on("mousemove", function (event, d) {
           // Update tooltip position
+          const formattedPower = formatPower(energyData[d.properties?.["name"]]);
           setTooltip({
             name: `Municipality: ${d.properties?.["name"]}`,
-            power: `Power: ${energyData[d.properties?.["name"]]} kW`,
+            power: `Power: ${formattedPower} kW`,
             x: event.clientX,
             y: event.clientY,
           });
         })
         .on("mouseout", function (_event, _d) {
+          const element = this as Element;
+          d3.select(element).classed("hover-highlight", false);
           // Hide tooltip
           setTooltip({ name: null, power: null, x: 0, y: 0 });
         }); // use the color associated with the Municipality ID or a default color
@@ -136,6 +186,19 @@ const SwissMap: React.FC<SwissMapProps> = ({
   return (
     <div>
       <svg ref={svgRef} id="SwissMap" width={width} height={height}>
+        <defs>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+            <feOffset dx="2" dy="2" result="offsetblur" />
+            <feComponentTransfer>
+              <feFuncA type="linear" slope="0.5" />
+            </feComponentTransfer>
+            <feMerge>
+              <feMergeNode />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
         <g id="state"></g>
         <g id="cantons"></g>
         <g id="municipalities"></g>
