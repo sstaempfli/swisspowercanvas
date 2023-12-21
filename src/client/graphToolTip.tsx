@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 
 interface TooltipProps {
   year: number;
-  power: number;
+  power: string;
   x: number;
   y: number;
 }
@@ -41,7 +41,7 @@ const Tooltip: React.FC<TooltipProps> = ({ year, power, x, y }) => {
       }}
     >
       <div>Year: {year}</div>
-      <div>Power installed: {Math.round(power)} kW</div>
+      <div>Power installed: {power} kW</div>
     </div>
   );
 };

@@ -14,17 +14,21 @@ interface GraphProps {
   selectedEnergySource: string;
 }
 
+const formatter = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 0, 
+});
+
 const Graph: React.FC<GraphProps> = ({
   data,
   currentlySelected,
   selectedEnergySource,
 }) => {
   const [tooltip, setTooltip] = React.useState<{
-    power: number;
+    power: string;
     year: number;
     x: number;
     y: number;
-  }>({ power: 0, year: 0, x: 0, y: 0 });
+  }>({ power: "0", year: 0, x: 0, y: 0 });
   const formatThousands = format(",");
   let maxTotalPower = Math.max(...data.map((d) => d.TotalPower));
   maxTotalPower = isFinite(maxTotalPower) ? maxTotalPower : 0;
@@ -84,7 +88,7 @@ const Graph: React.FC<GraphProps> = ({
       .attr("fill", "steelblue")
       .on("mouseover", function (event, d) {
         setTooltip({
-          power: d.TotalPower,
+          power: formatter.format(d.TotalPower),
           year: d.Date,
           x: event.clientX,
           y: event.clientY,
@@ -92,14 +96,14 @@ const Graph: React.FC<GraphProps> = ({
       })
       .on("mousemove", function (event, d) {
         setTooltip({
-          power: d.TotalPower,
+          power: formatter.format(d.TotalPower),
           year: d.Date,
           x: event.clientX,
           y: event.clientY,
         });
       })
       .on("mouseout", function (_event, _d) {
-        setTooltip({ power: 0, year: 0, x: 0, y: 0 });
+        setTooltip({ power: "0", year: 0, x: 0, y: 0 });
       });
   }, [data]);
 

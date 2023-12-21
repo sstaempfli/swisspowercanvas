@@ -36,21 +36,8 @@ button:focus {
 
 }
 
-#Info {
-  position: absolute;
-  top: 100%; /* Position it below the info button */
-  left: 0; 
-  width: 100%; 
-  background-color: transparent; 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-  display: none; 
-}
-
-#Info.active {
-  display: block; /* Show when the 'active' class is present */
-}
-
 #infoButton{
+  position: relative;
   background-color: transparent; 
   width: 8rem;
   font-size: smaller;
@@ -69,6 +56,22 @@ button:focus {
   border-color: white; 
   color: white;
 }
+
+#Info {
+  position: absolute;
+  top: 100%; /* Position it below the info button */
+  left: 0; 
+  width: 100%; 
+  background-color: transparent; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  display: none; 
+}
+
+#Info.active {
+  display: block; /* Show when the 'active' class is present */
+}
+
+
 
 
 

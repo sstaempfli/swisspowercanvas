@@ -1,14 +1,10 @@
-function Info(){
+function Info(_props: any){
     return (
         <article>
-            <h3>
-                Source Info
-            </h3>
             <body>
-                <p></p>
                 <p>We use a logarithmic scale to display the different power output levels, as a linear scale would be too sensitive to extremely high power output.</p>
-                <p>Blablabla</p>
-                <p>Blablabla</p>
+                <p>Data Source:</p>
+                <a href="https://opendata.swiss/de/dataset/elektrizitatsproduktionsanlagen">https://opendata.swiss/de/dataset/elektrizitatsproduktionsanlagen</a><span> (last updated on 5.12.23)</span>
             </body>
         </article>
     )

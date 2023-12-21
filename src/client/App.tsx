@@ -260,9 +260,7 @@ function App() {
         selectedEnergySource={selectedEnergySource}
       />
       <button id="infoButton" className={isInfoVisible ? 'white' : 'grey'} onClick={handleButtonClick}>Additional Info</button>
-      <div id="Info" className={isInfoVisible ? 'active' : ''}>
-        {isInfoVisible && <Info/>}
-      </div>
+      {isInfoVisible && <Info id="info" className={isInfoVisible ? 'active' : ''}/>}
     </Layout>
   );
 }
