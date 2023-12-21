@@ -214,6 +214,7 @@ function App() {
     };
 
     fetchData(); // Call the async function to fetch and process data
+    
   }, [currentView, selectedEnergySource]); // Add necessary dependencies
 
 
