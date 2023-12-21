@@ -146,7 +146,6 @@ const SwissMap: React.FC<SwissMapProps> = ({
         x={tooltip.x}
         y={tooltip.y}
       />
-      ;
     </div>
   );
 };
