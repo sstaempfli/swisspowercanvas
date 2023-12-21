@@ -71,6 +71,12 @@ button:focus {
   display: block; /* Show when the 'active' class is present */
 }
 
+article body {
+  & p, a, span {
+    font-size: smaller;
+  }
+}
+
 
 
 
