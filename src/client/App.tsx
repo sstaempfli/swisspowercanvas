@@ -205,14 +205,6 @@ function App() {
               newEnergyData[properties.name] = power.toFixed(2);
             }
           });
-
-          /*var a = [] as number[]
-          filteredData.forEach(x => {if(municipalities.features.filter(mun => (mun.properties as municipalityPropertiesType).id == x.ID).length >= 1){}else{console.log(x.ID + " nomatch")}});
-          municipalities.features.forEach(x => {if(filteredData.filter(mun => (mun.ID == (x.properties as municipalityPropertiesType).id)).length >= 1){}else{console.log((x.properties as municipalityPropertiesType).id + " is white")}});
-          filteredData.forEach(x => {if(a.includes(x.ID)){
-          }else{a.push(x.ID)}})
-          console.log(municipalities.features.length + "|" + filteredData.length + "|" + a.length);
-          */
         }
         setColors(newColors);
         setEnergyData(newEnergyData);
