@@ -142,7 +142,7 @@ Tags:
 - Milestone 1: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestone1completed
 - Milestone 2: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestones2&3
 - Milestone 3: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestones2&3
-- Milestone 4: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestones2&3
+- Milestone 4: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestone4
 
 
 
