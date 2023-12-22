@@ -1,4 +1,4 @@
-# Project Title
+# Swiss Power Canvas
 
 [[_TOC_]]
 
@@ -104,6 +104,11 @@ Document here the major milestones of your code and future planned steps.\
   - [X] [Implement frontend display of information on hover](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/9)
 
 
+- [X] Display a graph with a timeline of a selected categroy in a selected location and svg improvements
+  - [X] [React component that displays graph](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/12)
+  - [X] [Backend for graph](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/11)
+   - [X] [SVG Zoom and border highlighting](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/merge_requests/14)
+
 
 
 Create a list subtask.\
@@ -137,7 +142,7 @@ Tags:
 - Milestone 1: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestone1completed
 - Milestone 2: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestones2&3
 - Milestone 3: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestones2&3
-- ...
+- Milestone 4: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestones2&3
 
 
 
