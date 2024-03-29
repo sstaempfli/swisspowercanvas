@@ -130,11 +130,6 @@ In the fourth week, we developed the graph that is displayed and its correspondi
 
 
 ## Versioning
-Create stable versions of your code each week by using gitlab tags.\
-Take a look at [Gitlab Tags](https://docs.gitlab.com/ee/topics/git/tags.html) for more details. 
-
-Then list here the weekly tags. \
-We will evaluate your code every week, based on the corresponding version.
 
 Tags:
 - Milestone 1: https://gitlab.inf.ethz.ch/course-fwe2023/students/project/express/asostizzo_project_express/-/tags/Milestone1completed
