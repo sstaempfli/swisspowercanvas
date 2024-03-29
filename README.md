@@ -1,7 +1,5 @@
 # Swiss Power Canvas
 
-[[_TOC_]]
-
 ## Team Members
 1. Shana Staempfli
 2. Liv Weiss
